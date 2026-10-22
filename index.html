@@ -432,6 +432,22 @@ tbody tr:last-child td{border-bottom:none;}
 .kcard-move{display:none; width:100%; margin-top:8px; padding:8px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:12.5px; background:var(--white); color:var(--text);}
 .mobile-logo{display:none;}
 .bottom-nav{display:none;}
+.quick-actions{display:flex; gap:6px; margin-top:10px;}
+.quick-actions button{flex:1; display:flex; align-items:center; justify-content:center; gap:5px; padding:7px 4px; border:1px solid var(--border); border-radius:8px; background:var(--white); color:#475467; font-family:inherit; font-size:11.5px; font-weight:700; cursor:pointer;}
+.quick-actions button svg{width:14px; height:14px;}
+.quick-actions button:hover{background:var(--red-soft); color:var(--red-dark); border-color:#FFD9DB;}
+.qa-mini{display:flex; gap:4px;}
+.qa-mini button{width:28px; height:28px; display:flex; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:7px; background:var(--white); color:#667085; padding:0; cursor:pointer;}
+.qa-mini button svg{width:13px; height:13px;}
+.qa-mini button:hover{background:var(--red-soft); color:var(--red-dark);}
+@media (max-width:720px){ .quick-actions button{min-height:38px;} .qa-mini button{width:34px; height:34px;} }
+.cand-card{position:relative;}
+.cand-card-top{padding-right:24px;}
+.card-del{position:absolute; top:8px; right:8px; width:30px; height:30px; border-radius:8px; border:1px solid transparent; background:transparent; color:#98A2B3; display:flex; align-items:center; justify-content:center; padding:0;}
+.card-del svg{width:15px; height:15px;}
+.card-del:hover{background:#FEF1F2; color:#B42318; border-color:#FBD5D5;}
+.btn-danger{background:var(--error); color:#fff;}
+.btn-danger:hover{background:#B42318;}
 @media (max-width:1100px){ .dash-row3{grid-template-columns:1fr 1fr;} .dash-row3>:nth-child(3){grid-column:1/-1;} }
 @media (max-width:980px){ .tp-layout{grid-template-columns:1fr;} }
 @media (max-width:760px){ .dash-row2{grid-template-columns:1fr;} }
@@ -583,12 +599,12 @@ tbody tr:last-child td{border-bottom:none;}
           <div id="notifList"></div>
         </div>
         <button class="userchip" id="userBtn">
-          <div class="avatar">KW</div>
-          <div class="who"><div class="n">Kelly Wijaya</div><div class="r">Senior Recruiter</div></div>
+          <div class="avatar" id="userAvatar">KW</div>
+          <div class="who"><div class="n" id="userName">Kelly Wijaya</div><div class="r" id="userRole">Senior Recruiter</div></div>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="dropdown-panel" id="userPanel" style="width:220px;">
-          <div class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>My Profile</div>
+          <div class="menu-item" onclick="openMemberModal(CURRENT_USER_ID)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>My Profile</div>
           <div class="menu-item" onclick="showView('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>Settings</div>
           <div class="menu-divider"></div>
           <div class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>Sign out</div>
@@ -601,7 +617,7 @@ tbody tr:last-child td{border-bottom:none;}
       <!-- ================= DASHBOARD ================= -->
       <section class="view active" id="view-dashboard">
         <div class="page-head">
-          <div><h1>Good afternoon, Kelly 👋</h1><p>Here's what's happening across ANTARA ETP hiring today.</p></div>
+          <div><h1 id="dashGreeting">Hello 👋</h1><p>Here's what's happening across ANTARA ETP hiring today.</p></div>
           <button class="btn btn-primary" onclick="openJobModal()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
             Create Job Vacancy
@@ -818,7 +834,7 @@ tbody tr:last-child td{border-bottom:none;}
         <div class="grid-2col">
           <div class="card card-pad">
             <div class="section-title">Time to Hire by Department</div>
-            <p class="section-sub">Average days from application to offer</p>
+            <p class="section-sub">Average days from application to hire, from hired candidates</p>
             <div id="ttHireBars"></div>
           </div>
           <div class="card card-pad">
@@ -838,7 +854,9 @@ tbody tr:last-child td{border-bottom:none;}
             <div class="form-grid">
               <div class="field"><label>Company name</label><input value="PT Antara Elektronik Transaksi Pratama"></div>
               <div class="field"><label>Workspace name</label><input value="TALANTA"></div>
-              <div class="field span2"><label>Careers page URL</label><input value="careers.antaraetp.co.id"></div>
+              <div class="field span2"><label>Careers page URL</label><input value="careers.antaraetp.com"></div>
+              <div class="field"><label>Company email domain</label><input id="org_domain" value="antaraetp.com" oninput="ORG.domain=this.value.trim().replace(/^@/,'')"><div class="hint">Used to suggest emails like kelly@antaraetp.com</div></div>
+              <div class="field"><label>Invite link</label><input id="org_link" value="https://claude.ai/artifact/JMHsqQhV4hmE3BsbNxnU4v" oninput="ORG.inviteLink=this.value.trim()"><div class="hint">Added to invite emails</div></div>
             </div>
           </div>
           <div class="card card-pad">
@@ -851,8 +869,7 @@ tbody tr:last-child td{border-bottom:none;}
           </div>
         </div>
         <div class="card card-pad">
-          <div class="section-title" style="margin-bottom:4px;">Recruitment Team</div>
-          <p class="section-sub">People with access to this workspace</p>
+          <div class="card-head"><div><div class="section-title">Recruitment Team</div><p class="section-sub">Edit profiles, add people and invite them by email</p></div><button class="btn btn-primary btn-sm" onclick="openMemberModal()">+ Add team member</button></div>
           <div class="table-wrap"><table id="teamTable"></table></div>
         </div>
       </section>
@@ -885,15 +902,17 @@ tbody tr:last-child td{border-bottom:none;}
           <div class="t">Drag &amp; drop a CV here</div>
           <div class="s">PDF or DOCX, up to 10MB — or click to browse</div>
         </div>
-        <input type="file" id="cvFileInput" accept=".pdf,.doc,.docx,.txt" style="display:none">
+        <input type="file" id="cvFileInput" accept=".pdf,.docx,.txt" style="display:none">
+        <div id="cvFileNotice"></div>
         <div class="field" style="margin-top:16px;">
           <label>Or paste CV text <span class="hint">(Bahasa Indonesia or English, read and translated on the spot)</span></label>
-          <textarea id="cvPasteText" placeholder="Nama: ...&#10;Alamat: Jakarta Pusat&#10;Pendidikan: S1 Manajemen, Universitas ...&#10;Keahlian: analisis data, manajemen pemangku kepentingan"></textarea>
+          <textarea id="cvPasteText" oninput="cvPasteChanged()" placeholder="Nama: ...&#10;Alamat: Jakarta Pusat&#10;Pendidikan: S1 Manajemen, Universitas ...&#10;Keahlian: analisis data, manajemen pemangku kepentingan"></textarea>
         </div>
         <div class="field" style="margin-top:16px;">
           <label>Apply to position</label>
           <select class="filter-select" id="cvJobSelect" style="width:100%;"></select>
         </div>
+        <div id="cvAiToggle" style="margin-top:12px;"></div>
       </div>
       <div id="cvStep2" style="display:none;">
         <div style="display:flex; align-items:center; gap:8px; color:var(--success); font-weight:700; font-size:13.5px; margin-bottom:16px;">
@@ -964,9 +983,36 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
+<div class="overlay" id="commOverlay">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-head"><h2 id="commTitle">Contact</h2><button class="modal-close" onclick="closeModal('commOverlay')">✕</button></div>
+    <div class="modal-body" id="commBody"></div>
+    <div class="modal-foot" id="commFoot"></div>
+  </div>
+</div>
+
+<div class="overlay" id="teamOverlay">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-head"><h2 id="teamModalTitle">Team member</h2><button class="modal-close" onclick="closeModal('teamOverlay')">✕</button></div>
+    <div class="modal-body" id="teamModalBody"></div>
+    <div class="modal-foot" id="teamModalFoot"></div>
+  </div>
+</div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-head"><h2 id="confirmTitle">Confirm</h2><button class="modal-close" onclick="closeModal('confirmOverlay')">✕</button></div>
+    <div class="modal-body" id="confirmBody"></div>
+    <div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('confirmOverlay')">Cancel</button><button class="btn btn-danger" id="confirmOk">Delete</button></div>
+  </div>
+</div>
+
 <nav class="bottom-nav" id="bottomNav" aria-label="Main"></nav>
 <div class="toast-wrap" id="toastWrap"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <script>
 /* =========================================================================
@@ -997,6 +1043,7 @@ const ICONS = {
   employees:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="12" cy="10" r="2.6"/><path d="M8 17c.5-2 2-3 4-3s3.5 1 4 3"/></svg>',
   download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>',
   doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h8l5 5v13a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5"/><path d="M8 13h8M8 17h5"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>',
   plug:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2v5M15 2v5"/><path d="M7 7h10v3a5 5 0 01-5 5 5 5 0 01-5-5V7z"/><path d="M12 15v3M9 21h6"/></svg>',
   file_export:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9z"/><path d="M14 3v6h6"/><path d="M12 12v6M9.5 15.5L12 13l2.5 2.5"/></svg>',
 };
@@ -1019,132 +1066,126 @@ const STAGE_COLORS = {
   'Assessment':'#7A5AF8','Final Interview':'#ED1C24','Offer':'#12B76A','Hired':'#067647','Rejected':'#D92D20'
 };
 const FUNNEL_STAGES = ['Applied','Screening','Interview','Assessment','Final Interview','Hired'];
-const RECRUITERS = ['Kelly Wijaya','Bagus Aditya','Nadia Rahman'];
+const DEPARTMENTS = ['Risk Management','Legal and Compliance','Product','Corporate Affairs','IT Security','SPI','General Affairs'];
 
 /* ---------------- Sample data: Jobs ---------------- */
 let jobs = [
-  {id:'j1', title:'Product Manager', department:'Product', type:'Full-time', location:'Jakarta (Hybrid)',
-    openDate:'2026-08-04', deadline:'2026-10-15', status:'Open', salaryMin:18, salaryMax:28,
-    description:'Own the roadmap for our FX & money market trading products, working closely with Bloomberg partnership teams and internal engineering.',
-    required:['Product Strategy','Agile','Stakeholder Management','Data Analysis','Roadmapping'],
-    preferred:['Fintech','SQL','Figma'], yearsExp:4, education:"Bachelor's in Business, Finance, or related field"},
-  {id:'j2', title:'Software Developer', department:'Engineering', type:'Full-time', location:'Jakarta (On-site)',
+  {id:'j1', title:'Backend Engineer', department:'Product', type:'Full-time',
     openDate:'2026-08-11', deadline:'2026-10-20', status:'Open', salaryMin:12, salaryMax:22,
     description:'Build and maintain backend services powering our Bank Indonesia-licensed electronic trading platform.',
-    required:['Java','Spring Boot','SQL','REST API','Git'], preferred:['Kafka','Docker','AWS'],
-    yearsExp:3, education:"Bachelor's in Computer Science or related field"},
-  {id:'j3', title:'UI/UX Designer', department:'Product', type:'Full-time', location:'Jakarta (Hybrid)',
+    required:['Java','Spring Boot','SQL','REST API','Git'], preferred:['Kafka','Docker','AWS'], yearsExp:3},
+  {id:'j2', title:'Front-End Engineer', department:'Product', type:'Full-time',
+    openDate:'2026-09-14', deadline:'2026-10-15', status:'Open', salaryMin:11, salaryMax:19,
+    description:'Build fast, accessible interfaces for our trading platform and internal tools.',
+    required:['React','JavaScript','TypeScript','HTML/CSS','Git'], preferred:['UI Design','REST API','Figma'], yearsExp:2},
+  {id:'j3', title:'UI/UX Designer', department:'Product', type:'Full-time',
     openDate:'2026-08-18', deadline:'2026-10-25', status:'Open', salaryMin:11, salaryMax:19,
     description:'Design clean, trustworthy interfaces for enterprise trading and internal tools used by banks and treasury teams.',
-    required:['Figma','UI Design','UX Research','Prototyping','Design Systems'], preferred:['HTML/CSS','Motion Design'],
-    yearsExp:2, education:"Bachelor's in Design or related field"},
-  {id:'j4', title:'Business Analyst', department:'Product', type:'Full-time', location:'Jakarta (Hybrid)',
-    openDate:'2026-07-28', deadline:'2026-10-05', status:'On Hold', salaryMin:10, salaryMax:17,
-    description:'Bridge regulatory, business and technical teams to document requirements for new market infrastructure features.',
-    required:['Requirements Gathering','SQL','Business Process Modeling','Excel','Stakeholder Management'], preferred:['Power BI','Fintech'],
-    yearsExp:3, education:"Bachelor's degree, any relevant field"},
-  {id:'j5', title:'Project Manager', department:'Operations', type:'Full-time', location:'Jakarta (On-site)',
-    openDate:'2026-06-30', deadline:'2026-09-15', status:'Closed', salaryMin:15, salaryMax:24,
-    description:'Lead cross-functional delivery of regulatory and infrastructure projects across the organization.',
-    required:['Project Planning','Agile','Risk Management','Budgeting','Stakeholder Management'], preferred:['PMP','Jira'],
-    yearsExp:5, education:"Bachelor's degree, PMP preferred"},
-  {id:'j6', title:'Marketing Intern', department:'Business Development', type:'Internship', location:'Jakarta (On-site)',
-    openDate:'2026-09-01', deadline:'2026-10-31', status:'Open', salaryMin:2.5, salaryMax:3.5,
-    description:'Support content and social media efforts for ANTARA ETP\u2019s market outreach and partner communications.',
-    required:['Content Creation','Social Media','Communication'], preferred:['Canva','SEO'],
-    yearsExp:0, education:'Final-year student or recent graduate'},
+    required:['Figma','UI Design','UX Research','Prototyping','Design Systems'], preferred:['HTML/CSS','Motion Design'], yearsExp:2},
+  {id:'j4', title:'Legal & Compliance Associate', department:'Legal and Compliance', type:'Full-time',
+    openDate:'2026-09-21', deadline:'2026-10-31', status:'Open', salaryMin:12, salaryMax:18,
+    description:'Support regulatory reporting, contract review and licence compliance with Bank Indonesia and OJK.',
+    required:['Regulatory Compliance','Legal Research','Contract Review','Risk Assessment','Documentation'], preferred:['OJK Regulations','Anti-Money Laundering'], yearsExp:2},
+  {id:'j5', title:'Finance, Accounting & Tax Associate', department:'General Affairs', type:'Full-time',
+    openDate:'2026-06-30', deadline:'2026-09-15', status:'Closed', salaryMin:10, salaryMax:16,
+    description:'Handle bookkeeping, monthly closing, and financial and tax reporting for the company.',
+    required:['Accounting','Tax Reporting','Financial Reporting','Excel','Budgeting'], preferred:['Brevet Tax Certification','Power BI'], yearsExp:3},
+  {id:'j6', title:'IT & DevOps', department:'IT Security', type:'Full-time',
+    openDate:'2026-10-01', deadline:'2026-11-15', status:'Open', salaryMin:14, salaryMax:24,
+    description:'Run our CI/CD pipelines and infrastructure, and keep access to production and backup environments secure.',
+    required:['Linux','Docker','CI/CD','Git','Networking'], preferred:['Kubernetes','Terraform','Information Security','AWS'], yearsExp:3},
 ];
 
 /* ---------------- Sample data: Candidates ---------------- */
 let candidates = [
-  {id:'c1', name:'Dinda Amelia', jobId:'j1', stage:'Final Interview', appliedDate:'2026-09-02', location:'Jakarta',
-    email:'dinda.amelia@mail.com', phone:'+62 812-3456-7801', education:'S1 Manajemen, Universitas Indonesia',
-    experienceYears:5, skills:['Product Strategy','Agile','Stakeholder Management','Data Analysis','Roadmapping','SQL','Fintech'],
-    workExperience:[{company:'Bank Mandiri', role:'Product Associate', period:'2022–2026'},{company:'Gojek', role:'Associate PM', period:'2020–2022'}],
-    certifications:['Certified Scrum Product Owner'], previousCompanies:['Bank Mandiri','Gojek'], recruiter:'Kelly Wijaya',
-    interviewDate:'2026-10-01T10:00', notes:[{by:'Kelly Wijaya', date:'2026-09-20', text:'Strong fintech background, very articulate on roadmap trade-offs.'}], inTalentPool:true},
-  {id:'c2', name:'Rizky Pratama', jobId:'j2', stage:'Interview 2', appliedDate:'2026-09-05', location:'Bandung',
+  {id:'c1', name:'Dinda Amelia', jobId:'j4', stage:'Final Interview', appliedDate:'2026-09-02', location:'Jakarta',
+    email:'dinda.amelia@mail.com', phone:'+62 812-3456-7801', education:'S1 Hukum, Universitas Indonesia',
+    experienceYears:5, skills:['Regulatory Compliance','Legal Research','Contract Review','Risk Assessment','Documentation','OJK Regulations'],
+    workExperience:[{company:'Bank Mandiri', role:'Compliance Officer', period:'2022–2026'},{company:'Santoso & Rekan', role:'Associate Lawyer', period:'2020–2022'}],
+    certifications:['Compliance Certification (Level 2)'], previousCompanies:['Bank Mandiri','Santoso & Rekan'], recruiter:'Kelly Wijaya',
+    interviewDate:'2026-10-01T10:00', notes:[{by:'Kelly Wijaya', date:'2026-09-20', text:'Solid knowledge of OJK reporting duties, clear on how contract review supports licence conditions.'}], inTalentPool:true},
+  {id:'c2', name:'Rizky Pratama', jobId:'j1', stage:'Interview 2', appliedDate:'2026-09-05', location:'Bandung',
     email:'rizky.p@mail.com', phone:'+62 813-2211-9087', education:'S1 Teknik Informatika, ITB',
     experienceYears:4, skills:['Java','Spring Boot','SQL','REST API','Git','Docker'],
     workExperience:[{company:'Tokopedia', role:'Backend Engineer', period:'2022–2026'},{company:'PT Digital Nusantara', role:'Junior Developer', period:'2021–2022'}],
-    certifications:['Oracle Certified Java Programmer'], previousCompanies:['Tokopedia','PT Digital Nusantara'], recruiter:'Bagus Aditya',
-    interviewDate:'2026-09-30T14:00', notes:[{by:'Bagus Aditya', date:'2026-09-18', text:'Solid system design answers, needs to confirm AWS exposure.'}], inTalentPool:true},
+    certifications:['Oracle Certified Java Programmer'], previousCompanies:['Tokopedia','PT Digital Nusantara'], recruiter:'Lepi Roikah',
+    interviewDate:'2026-09-30T14:00', notes:[{by:'Lepi Roikah', date:'2026-09-18', text:'Solid system design answers, needs to confirm AWS exposure.'}], inTalentPool:true},
   {id:'c3', name:'Sarah Wijaya', jobId:'j3', stage:'Assessment', appliedDate:'2026-09-08', location:'Jakarta',
     email:'sarah.wijaya@mail.com', phone:'+62 815-7788-4321', education:'S1 Desain Komunikasi Visual, ITB',
     experienceYears:3, skills:['Figma','UI Design','UX Research','Prototyping','HTML/CSS'],
     workExperience:[{company:'Traveloka', role:'Product Designer', period:'2023–2026'},{company:'Freelance', role:'UI Designer', period:'2021–2023'}],
-    certifications:[], previousCompanies:['Traveloka'], recruiter:'Nadia Rahman',
-    interviewDate:'2026-10-02T09:30', notes:[{by:'Nadia Rahman', date:'2026-09-19', text:'Portfolio shows strong enterprise dashboard work.'}], inTalentPool:true},
-  {id:'c4', name:'Fajar Nugroho', jobId:'j2', stage:'Screening', appliedDate:'2026-09-14', location:'Jakarta',
+    certifications:[], previousCompanies:['Traveloka'], recruiter:'Afina Nafila',
+    interviewDate:'2026-10-02T09:30', notes:[{by:'Afina Nafila', date:'2026-09-19', text:'Portfolio shows strong enterprise dashboard work.'}], inTalentPool:true},
+  {id:'c4', name:'Fajar Nugroho', jobId:'j1', stage:'Screening', appliedDate:'2026-09-14', location:'Jakarta',
     email:'fajar.n@mail.com', phone:'+62 821-5566-0099', education:'S1 Sistem Informasi, Universitas Bina Nusantara',
     experienceYears:2, skills:['Java','SQL','Git'], workExperience:[{company:'PT Solusi Teknologi', role:'Software Engineer', period:'2024–2026'}],
-    certifications:[], previousCompanies:['PT Solusi Teknologi'], recruiter:'Bagus Aditya', interviewDate:null, notes:[], inTalentPool:false},
+    certifications:[], previousCompanies:['PT Solusi Teknologi'], recruiter:'Lepi Roikah', interviewDate:null, notes:[], inTalentPool:false},
   {id:'c5', name:'Putri Handayani', jobId:'j4', stage:'Applied', appliedDate:'2026-09-20', location:'Surabaya',
-    email:'putri.h@mail.com', phone:'+62 822-1122-3344', education:'S1 Akuntansi, Universitas Airlangga',
-    experienceYears:3, skills:['Requirements Gathering','Excel','Business Process Modeling'], workExperience:[{company:'BRI', role:'Business Analyst', period:'2022–2026'}],
+    email:'putri.h@mail.com', phone:'+62 822-1122-3344', education:'S1 Hukum, Universitas Airlangga',
+    experienceYears:3, skills:['Legal Research','Contract Review','Documentation'], workExperience:[{company:'BRI', role:'Legal Staff', period:'2022–2026'}],
     certifications:[], previousCompanies:['BRI'], recruiter:'Kelly Wijaya', interviewDate:null, notes:[], inTalentPool:false},
-  {id:'c6', name:'Bayu Setiawan', jobId:'j1', stage:'Rejected', appliedDate:'2026-08-10', location:'Jakarta',
-    email:'bayu.s@mail.com', phone:'+62 811-9900-7766', education:'S1 Teknik Industri, ITS',
-    experienceYears:2, skills:['Agile','Data Analysis'], workExperience:[{company:'Startup Lokal', role:'Product Analyst', period:'2023–2026'}],
+  {id:'c6', name:'Bayu Setiawan', jobId:'j5', stage:'Rejected', appliedDate:'2026-08-10', location:'Jakarta',
+    email:'bayu.s@mail.com', phone:'+62 811-9900-7766', education:'S1 Akuntansi, Universitas Trisakti',
+    experienceYears:2, skills:['Accounting','Excel'], workExperience:[{company:'Startup Lokal', role:'Accounting Staff', period:'2023–2026'}],
     certifications:[], previousCompanies:['Startup Lokal'], recruiter:'Kelly Wijaya', interviewDate:null,
-    notes:[{by:'Kelly Wijaya', date:'2026-08-22', text:'Not enough stakeholder management experience for this seniority.'}], inTalentPool:true, outcomeDate:'2026-08-24'},
+    notes:[{by:'Kelly Wijaya', date:'2026-08-22', text:'Limited tax reporting experience for this role.'}], inTalentPool:true, outcomeDate:'2026-08-24'},
   {id:'c7', name:'Nur Kholis', jobId:'j5', stage:'Hired', appliedDate:'2026-07-01', location:'Jakarta',
-    email:'nur.kholis@mail.com', phone:'+62 817-3344-5566', education:'S1 Teknik Sipil, Universitas Gadjah Mada, PMP Certified',
-    experienceYears:6, skills:['Project Planning','Agile','Risk Management','Budgeting','Stakeholder Management','PMP','Jira'],
-    workExperience:[{company:'PT Pembangunan Perumahan', role:'Project Manager', period:'2020–2026'}],
-    certifications:['PMP'], previousCompanies:['PT Pembangunan Perumahan'], recruiter:'Nadia Rahman', interviewDate:null,
-    notes:[{by:'Nadia Rahman', date:'2026-08-05', text:'Excellent references, hired to lead regulatory infra rollout.'}], inTalentPool:true, outcomeDate:'2026-08-20', hireDate:'2026-08-20',
+    email:'nur.kholis@mail.com', phone:'+62 817-3344-5566', education:'S1 Akuntansi, Universitas Gadjah Mada',
+    experienceYears:6, skills:['Accounting','Tax Reporting','Financial Reporting','Excel','Budgeting','Brevet Tax Certification'],
+    workExperience:[{company:'PT Pembangunan Perumahan', role:'Senior Accountant', period:'2020–2026'}],
+    certifications:['Brevet Tax Certification'], previousCompanies:['PT Pembangunan Perumahan'], recruiter:'Afina Nafila', interviewDate:null,
+    notes:[{by:'Afina Nafila', date:'2026-08-05', text:'Excellent references, hired to own monthly closing and tax reporting.'}], inTalentPool:true, outcomeDate:'2026-08-20', hireDate:'2026-08-20',
     source:'Referral',
-    employment:{startDate:'2026-09-01', endDate:'', hoursPerWeek:40, homeAddress:'Jl. Kemang Raya No. 21, Jakarta Selatan', npwp:'07.541.223.4-017.000', ktp:'3174012509880004', salaryRate:'Rp 22,000,000 / month',
+    employment:{startDate:'2026-09-01', endDate:'', hoursPerWeek:40, homeAddress:'Jl. Kemang Raya No. 21, Jakarta Selatan', npwp:'07.541.223.4-017.000', ktp:'3174012509880004', salaryRate:'Rp 15,000,000 / month',
       timesheet:[{week:'1–5 Sep 2026', hours:40},{week:'8–12 Sep 2026', hours:42},{week:'15–19 Sep 2026', hours:40},{week:'22–26 Sep 2026', hours:38}]}},
   {id:'c8', name:'Ayu Lestari', jobId:'j3', stage:'Interview 1', appliedDate:'2026-09-10', location:'Yogyakarta',
     email:'ayu.lestari@mail.com', phone:'+62 819-2233-4455', education:'S1 Desain Produk, ISI Yogyakarta',
     experienceYears:1, skills:['Figma','UI Design','Prototiping','Design Systems'], workExperience:[{company:'PT Kreasi Digital', role:'Junior Designer', period:'2025–2026'}],
-    certifications:[], previousCompanies:['PT Kreasi Digital'], recruiter:'Nadia Rahman', interviewDate:'2026-10-03T11:00', notes:[], inTalentPool:false},
-  {id:'c9', name:'Dimas Prakoso', jobId:'j2', stage:'Hired', appliedDate:'2026-06-15', location:'Jakarta',
+    certifications:[], previousCompanies:['PT Kreasi Digital'], recruiter:'Afina Nafila', interviewDate:'2026-10-03T11:00', notes:[], inTalentPool:false},
+  {id:'c9', name:'Dimas Prakoso', jobId:'j1', stage:'Hired', appliedDate:'2026-06-15', location:'Jakarta',
     email:'dimas.p@mail.com', phone:'+62 812-6677-8899', education:'S1 Teknik Informatika, Universitas Indonesia',
     experienceYears:5, skills:['Java','Spring Boot','SQL','REST API','Git','Kafka','Docker','AWS'],
     workExperience:[{company:'Bloomberg', role:'Software Engineer', period:'2021–2026'}], certifications:['AWS Certified Developer'],
-    previousCompanies:['Bloomberg'], recruiter:'Bagus Aditya', interviewDate:null,
-    notes:[{by:'Bagus Aditya', date:'2026-07-25', text:'Ex-Bloomberg — deep understanding of FXGO integrations.'}], inTalentPool:true, outcomeDate:'2026-07-28', hireDate:'2026-08-01',
+    previousCompanies:['Bloomberg'], recruiter:'Lepi Roikah', interviewDate:null,
+    notes:[{by:'Lepi Roikah', date:'2026-07-25', text:'Ex-Bloomberg — deep understanding of FXGO integrations.'}], inTalentPool:true, outcomeDate:'2026-07-28', hireDate:'2026-08-01',
     source:'LinkedIn',
     employment:{startDate:'2026-08-11', endDate:'', hoursPerWeek:40, homeAddress:'Jl. Cendrawasih No. 8, Bandung', npwp:'19.882.104.6-425.000', ktp:'3273091203910006', salaryRate:'Rp 19,500,000 / month',
       timesheet:[{week:'1–5 Sep 2026', hours:40},{week:'8–12 Sep 2026', hours:40},{week:'15–19 Sep 2026', hours:41},{week:'22–26 Sep 2026', hours:40}]}},
-  {id:'c10', name:'Intan Permatasari', jobId:'j6', stage:'Applied', appliedDate:'2026-09-22', location:'Depok',
-    email:'intan.p@mail.com', phone:'+62 856-1122-3344', education:'S1 tahun akhir, Ilmu Komunikasi, Universitas Indonesia',
-    experienceYears:0, skills:['Content Creation','Social Media','Canva'], workExperience:[], certifications:[],
+  {id:'c10', name:'Intan Permatasari', jobId:'j2', stage:'Applied', appliedDate:'2026-09-22', location:'Depok',
+    email:'intan.p@mail.com', phone:'+62 856-1122-3344', education:'S1 Teknik Informatika tahun akhir, Universitas Indonesia',
+    experienceYears:0, skills:['React','JavaScript','HTML/CSS','Git'], workExperience:[], certifications:[],
     previousCompanies:[], recruiter:'Kelly Wijaya', interviewDate:null, notes:[], inTalentPool:false},
-  {id:'c11', name:'Yoga Firmansyah', jobId:'j1', stage:'Screening', appliedDate:'2026-09-18', location:'Tangerang',
-    email:'yoga.f@mail.com', phone:'+62 878-4455-6677', education:"S1 Ekonomi, Universitas Padjadjaran",
-    experienceYears:3, skills:['Product Strategy','Roadmapping','Data Analysis'], workExperience:[{company:'PT Fintech Nusantara', role:'Product Owner', period:'2023–2026'}],
+  {id:'c11', name:'Yoga Firmansyah', jobId:'j2', stage:'Screening', appliedDate:'2026-09-18', location:'Tangerang',
+    email:'yoga.f@mail.com', phone:'+62 878-4455-6677', education:'S1 Sistem Informasi, Universitas Multimedia Nusantara',
+    experienceYears:3, skills:['React','JavaScript','TypeScript','HTML/CSS'], workExperience:[{company:'PT Fintech Nusantara', role:'Front-End Developer', period:'2023–2026'}],
     certifications:[], previousCompanies:['PT Fintech Nusantara'], recruiter:'Kelly Wijaya', interviewDate:null, notes:[], inTalentPool:false},
-  {id:'c12', name:'Melati Kusuma', jobId:'j4', stage:'Interview 1', appliedDate:'2026-09-12', location:'Jakarta',
-    email:'melati.k@mail.com', phone:'+62 838-9900-1122', education:'S1 Sistem Informasi, Universitas Trisakti',
-    experienceYears:4, skills:['Requirements Gathering','SQL','Business Process Modeling','Excel','Stakeholder Management','Power BI'],
-    workExperience:[{company:'OJK', role:'Business Analyst', period:'2022–2026'}], certifications:[], previousCompanies:['OJK'],
-    recruiter:'Nadia Rahman', interviewDate:'2026-09-29T13:30', notes:[], inTalentPool:true},
-  {id:'c13', name:'Reza Aldiansyah', jobId:'j2', stage:'Applied', appliedDate:'2026-09-24', location:'Jakarta',
+  {id:'c12', name:'Melati Kusuma', jobId:'j6', stage:'Interview 1', appliedDate:'2026-09-12', location:'Jakarta',
+    email:'melati.k@mail.com', phone:'+62 838-9900-1122', education:'S1 Teknik Komputer, Universitas Trisakti',
+    experienceYears:4, skills:['Linux','Docker','CI/CD','Git','Networking','Information Security'],
+    workExperience:[{company:'PT Telekomunikasi Digital', role:'DevOps Engineer', period:'2022–2026'}], certifications:[], previousCompanies:['PT Telekomunikasi Digital'],
+    recruiter:'Afina Nafila', interviewDate:'2026-09-29T13:30', notes:[], inTalentPool:true},
+  {id:'c13', name:'Reza Aldiansyah', jobId:'j1', stage:'Applied', appliedDate:'2026-09-24', location:'Jakarta',
     email:'reza.a@mail.com', phone:'+62 895-1234-5566', education:'S1 Teknik Komputer, Universitas Telkom',
     experienceYears:2, skills:['Java','REST API','Git'], workExperience:[{company:'PT Aplikasi Kreatif', role:'Developer', period:'2024–2026'}],
-    certifications:[], previousCompanies:['PT Aplikasi Kreatif'], recruiter:'Bagus Aditya', interviewDate:null, notes:[], inTalentPool:false},
+    certifications:[], previousCompanies:['PT Aplikasi Kreatif'], recruiter:'Lepi Roikah', interviewDate:null, notes:[], inTalentPool:false},
   {id:'c14', name:'Citra Ramadhani', jobId:'j5', stage:'Rejected', appliedDate:'2026-07-05', location:'Jakarta',
-    email:'citra.r@mail.com', phone:'+62 856-9988-7766', education:'S1 Manajemen, Universitas Trisakti',
-    experienceYears:4, skills:['Project Planning','Budgeting'], workExperience:[{company:'PT Konstruksi Nasional', role:'Coordinator', period:'2021–2026'}],
-    certifications:[], previousCompanies:['PT Konstruksi Nasional'], recruiter:'Nadia Rahman', interviewDate:null,
-    notes:[{by:'Nadia Rahman', date:'2026-07-18', text:'Good coordination skills but limited risk management exposure.'}], inTalentPool:true, outcomeDate:'2026-07-19'},
+    email:'citra.r@mail.com', phone:'+62 856-9988-7766', education:'D3 Akuntansi, Politeknik Negeri Jakarta',
+    experienceYears:4, skills:['Accounting','Budgeting'], workExperience:[{company:'PT Konstruksi Nasional', role:'Accounting Staff', period:'2021–2026'}],
+    certifications:[], previousCompanies:['PT Konstruksi Nasional'], recruiter:'Afina Nafila', interviewDate:null,
+    notes:[{by:'Afina Nafila', date:'2026-07-18', text:'Strong bookkeeping but below the S1 requirement, keep in mind for junior finance roles.'}], inTalentPool:true, outcomeDate:'2026-07-19'},
   {id:'c15', name:'Bimo Satrio', jobId:'j3', stage:'Hired', appliedDate:'2026-06-20', location:'Jakarta',
     email:'bimo.s@mail.com', phone:'+62 813-4455-6677', education:'S1 Desain Interaksi, Universitas Multimedia Nusantara',
     experienceYears:4, skills:['Figma','UI Design','UX Research','Prototyping','Design Systems','Motion Design'],
     workExperience:[{company:'DANA', role:'Senior Product Designer', period:'2021–2026'}], certifications:[], previousCompanies:['DANA'],
-    recruiter:'Nadia Rahman', interviewDate:null, notes:[{by:'Nadia Rahman', date:'2026-07-15', text:'Best portfolio we\u2019ve seen this quarter, immediate offer.'}],
+    recruiter:'Afina Nafila', interviewDate:null, notes:[{by:'Afina Nafila', date:'2026-07-15', text:'Best portfolio we\u2019ve seen this quarter, immediate offer.'}],
     inTalentPool:true, outcomeDate:'2026-07-20', hireDate:'2026-07-22',
     source:'Careers Page',
     employment:{startDate:'2026-08-04', endDate:'', hoursPerWeek:40, homeAddress:'Jl. Melati Indah No. 15, Jakarta Timur', npwp:'55.201.887.2-054.000', ktp:'3175056607910002', salaryRate:'Rp 17,000,000 / month',
       timesheet:[{week:'1–5 Sep 2026', hours:40},{week:'8–12 Sep 2026', hours:39},{week:'15–19 Sep 2026', hours:40},{week:'22–26 Sep 2026', hours:40}]}},
-  {id:'c16', name:'Wulan Andriani', jobId:'j1', stage:'Offer', appliedDate:'2026-08-28', location:'Jakarta',
-    email:'wulan.a@mail.com', phone:'+62 817-2233-9988', education:'MBA, Universitas Prasetiya Mulya',
-    experienceYears:6, skills:['Product Strategy','Agile','Stakeholder Management','Data Analysis','Roadmapping','Fintech','SQL','Figma'],
-    workExperience:[{company:'DBS Bank', role:'Product Lead', period:'2020–2026'}], certifications:['PSPO II'], previousCompanies:['DBS Bank'],
+  {id:'c16', name:'Wulan Andriani', jobId:'j6', stage:'Offer', appliedDate:'2026-08-28', location:'Jakarta',
+    email:'wulan.a@mail.com', phone:'+62 817-2233-9988', education:'S1 Teknik Informatika, Institut Teknologi Bandung',
+    experienceYears:6, skills:['Linux','Docker','CI/CD','Git','Networking','Kubernetes','Terraform','AWS','Information Security'],
+    workExperience:[{company:'DBS Bank', role:'DevOps Engineer', period:'2020–2026'}], certifications:['Certified Kubernetes Administrator'], previousCompanies:['DBS Bank'],
     recruiter:'Kelly Wijaya', interviewDate:null, notes:[{by:'Kelly Wijaya', date:'2026-09-25', text:'Top candidate — offer extended, awaiting response.'}], inTalentPool:true},
 ];
 
@@ -1297,6 +1338,21 @@ const SKILL_ALIASES = {
   'powerbi':'Power BI',
   'project management professional':'PMP',
   'amazon web services':'AWS',
+  'kepatuhan regulasi':'Regulatory Compliance','kepatuhan':'Regulatory Compliance',
+  'riset hukum':'Legal Research','penelitian hukum':'Legal Research',
+  'review kontrak':'Contract Review','tinjauan kontrak':'Contract Review','telaah kontrak':'Contract Review',
+  'penilaian risiko':'Risk Assessment','asesmen risiko':'Risk Assessment',
+  'dokumentasi':'Documentation',
+  'peraturan ojk':'OJK Regulations','regulasi ojk':'OJK Regulations',
+  'anti pencucian uang':'Anti-Money Laundering','apu ppt':'Anti-Money Laundering','aml':'Anti-Money Laundering',
+  'akuntansi':'Accounting','pembukuan':'Accounting',
+  'pelaporan pajak':'Tax Reporting','perpajakan':'Tax Reporting',
+  'laporan keuangan':'Financial Reporting','pelaporan keuangan':'Financial Reporting',
+  'brevet pajak':'Brevet Tax Certification','brevet':'Brevet Tax Certification',
+  'keamanan informasi':'Information Security','keamanan siber':'Information Security','cybersecurity':'Information Security',
+  'jaringan':'Networking','jaringan komputer':'Networking',
+  'ci cd':'CI/CD','cicd':'CI/CD','k8s':'Kubernetes',
+  'html':'HTML/CSS','css':'HTML/CSS','html css':'HTML/CSS','react js':'React',
 };
 let SKILL_INDEX = null;
 function buildSkillIndex(){
@@ -1387,12 +1443,12 @@ function standardizeCandidate(c){
 
 /* Standard criteria for the sample vacancies, and standardise the sample candidates */
 const JOB_STANDARDS = {
-  j1:{minEdu:'S1', eduFields:['Business & Management','Economics, Accounting & Finance'], locationCity:'Jakarta Pusat', workMode:'Hybrid'},
-  j2:{minEdu:'S1', eduFields:['Computer Science & IT','Engineering (other)'], locationCity:'Jakarta Pusat', workMode:'On-site'},
+  j1:{minEdu:'S1', eduFields:['Computer Science & IT','Engineering (other)'], locationCity:'Jakarta Pusat', workMode:'On-site'},
+  j2:{minEdu:'S1', eduFields:['Computer Science & IT','Engineering (other)'], locationCity:'Jakarta Pusat', workMode:'Hybrid'},
   j3:{minEdu:'S1', eduFields:['Design','Communication & Media'], locationCity:'Jakarta Pusat', workMode:'Hybrid'},
-  j4:{minEdu:'S1', eduFields:[], locationCity:'Jakarta Pusat', workMode:'Hybrid'},
-  j5:{minEdu:'S1', eduFields:[], locationCity:'Jakarta Pusat', workMode:'On-site'},
-  j6:{minEdu:'S1', eduFields:['Communication & Media','Business & Management'], locationCity:'Jakarta Pusat', workMode:'On-site', acceptsFinalYear:true},
+  j4:{minEdu:'S1', eduFields:['Law'], locationCity:'Jakarta Pusat', workMode:'Hybrid'},
+  j5:{minEdu:'S1', eduFields:['Economics, Accounting & Finance'], locationCity:'Jakarta Pusat', workMode:'On-site'},
+  j6:{minEdu:'S1', eduFields:['Computer Science & IT','Engineering (other)'], locationCity:'Jakarta Pusat', workMode:'On-site'},
 };
 (function migrateStandards(){
   jobs.forEach(j=>Object.assign(j, JOB_STANDARDS[j.id] || {minEdu:'S1', eduFields:[], locationCity:'Jakarta Pusat', workMode:'On-site'}));
@@ -1414,8 +1470,8 @@ const SOURCES = ['Referral','LinkedIn','Glints','JobStreet','Indeed','Careers Pa
 const JOB_BOARDS = [
   {id:'linkedin', name:'LinkedIn Jobs', color:'#0A66C2', desc:'Sync applicants from your LinkedIn company job posts.',
     sample:{name:'Farhan Maulana', email:'farhan.maulana@mail.com', phone:'+62 812-4455-0011', location:'Central Jakarta',
-      education:'Bachelor of Business Management, Universitas Prasetiya Mulya', skills:['Product Strategy','Data Analysis','SQL','Stakeholder Mgmt'], experienceYears:3,
-      workExperience:[{company:'PT Digital Nusantara', role:'Business Development', period:'2022–2026'}], certifications:[], previousCompanies:['PT Digital Nusantara']}},
+      education:'Bachelor of Information Systems, Binus University', skills:['React','JavaScript','TypeScript','HTML','Git','Figma'], experienceYears:3,
+      workExperience:[{company:'PT Digital Nusantara', role:'Front-End Developer', period:'2022–2026'}], certifications:[], previousCompanies:['PT Digital Nusantara']}},
   {id:'glints', name:'Glints', color:'#FF6522', desc:'Import candidates who applied to your Glints listings.',
     sample:{name:'Vina Anggraini', email:'vina.anggraini@mail.com', phone:'+62 815-6677-2200', location:'Kota Bandung, Jawa Barat',
       education:'Sarjana Desain Komunikasi Visual, Universitas Padjadjaran', skills:['Figma','Desain UI','Prototipe','Riset Pengguna'], experienceYears:2,
@@ -1426,26 +1482,486 @@ const JOB_BOARDS = [
       workExperience:[{company:'PT Solusi Teknologi', role:'Backend Developer', period:'2022–2026'}], certifications:[], previousCompanies:['PT Solusi Teknologi']}},
   {id:'indeed', name:'Indeed', color:'#2557A7', desc:'Automatically pull in new Indeed applicants each day.',
     sample:{name:'Ratna Sari Dewi', email:'ratna.sari@mail.com', phone:'+62 878-2233-6699', location:'Jaksel',
-      education:'S1 Akuntansi, Universitas Trisakti', skills:['MS Excel','Pengumpulan Kebutuhan','Pemodelan Proses Bisnis','Manajemen Pemangku Kepentingan'], experienceYears:2,
-      workExperience:[{company:'PT Mitra Sejahtera', role:'Business Analyst', period:'2024–2026'}], certifications:[], previousCompanies:['PT Mitra Sejahtera']}},
+      education:'S1 Hukum, Universitas Trisakti', skills:['Riset Hukum','Review Kontrak','Dokumentasi','Kepatuhan Regulasi'], experienceYears:2,
+      workExperience:[{company:'PT Mitra Sejahtera', role:'Legal Staff', period:'2024–2026'}], certifications:[], previousCompanies:['PT Mitra Sejahtera']}},
 ];
 const connectedBoards = {};
 
 /* ---------------- Sample notifications ---------------- */
 const notifications = [
-  {type:'red', title:'New application received', desc:'Wulan Andriani applied for Product Manager', time:'12m ago'},
-  {type:'green', title:'Candidate accepted offer stage', desc:'Wulan Andriani moved to Offer', time:'1h ago'},
+  {type:'red', title:'New application received', desc:'Reza Aldiansyah applied for Backend Engineer', time:'12m ago'},
+  {type:'green', title:'Candidate accepted offer stage', desc:'Wulan Andriani moved to Offer (IT & DevOps)', time:'1h ago'},
   {type:'blue', title:'Interview scheduled', desc:'Rizky Pratama — Interview 2, Sep 30 at 14:00', time:'3h ago'},
-  {type:'blue', title:'Interview scheduled', desc:'Dinda Amelia — Final Interview, Oct 1 at 10:00', time:'5h ago'},
-  {type:'red', title:'Vacancy deadline approaching', desc:'Business Analyst closes in 8 days', time:'Yesterday'},
+  {type:'blue', title:'Interview scheduled', desc:'Dinda Amelia — Final Interview (Legal & Compliance Associate), Oct 1 at 10:00', time:'5h ago'},
+  {type:'red', title:'Vacancy deadline approaching', desc:'Front-End Engineer deadline has passed, extend or close it', time:'Yesterday'},
 ];
 
 const TEAM = [
-  {name:'Kelly Wijaya', role:'Senior Recruiter', email:'kelly.wijaya@antaraetp.co.id', dept:'HR'},
-  {name:'Bagus Aditya', role:'Technical Recruiter', email:'bagus.aditya@antaraetp.co.id', dept:'HR'},
-  {name:'Nadia Rahman', role:'Recruiter', email:'nadia.rahman@antaraetp.co.id', dept:'HR'},
-  {name:'Hendra Wibowo', role:'HR Manager', email:'hendra.wibowo@antaraetp.co.id', dept:'HR'},
+  {id:'tm1', name:'Kelly Wijaya', role:'Senior Recruiter', email:'kelly@antaraetp.com', phone:'', status:'Active'},
+  {id:'tm2', name:'Lepi Roikah', role:'Recruiter', email:'lepi@antaraetp.com', phone:'', status:'Active'},
+  {id:'tm3', name:'Afina Nafila', role:'Recruiter', email:'afina@antaraetp.com', phone:'', status:'Active'},
 ];
+
+/* =========================================================================
+   RECRUITMENT TEAM: edit profiles, add people, invite them by email
+   ========================================================================= */
+const TEAM_ROLES = ['Senior Recruiter','Recruiter','HR Manager','Hiring Manager','Interviewer'];
+const CURRENT_USER_ID = 'tm1';
+const ORG = {domain:'antaraetp.com', inviteLink:'https://claude.ai/artifact/JMHsqQhV4hmE3BsbNxnU4v'};
+let teamEditId = null, inviteMemberId = null, emailTouched = false;
+
+function currentUser(){ return TEAM.find(t=>t.id===CURRENT_USER_ID) || TEAM[0]; }
+function firstName(n){ return String(n||'').trim().split(/\s+/)[0] || ''; }
+function isRecruiterRole(r){ return /recruiter|hr manager/i.test(r||''); }
+function recruiterNames(){ return TEAM.filter(t=>t.status==='Active' && isRecruiterRole(t.role)).map(t=>t.name); }
+function suggestEmail(name){
+  const f = firstName(name).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+  return f ? f+'@'+ORG.domain : '';
+}
+const validEmail = e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+function greeting(){ const h = new Date().getHours(); return h<12 ? 'Good morning' : h<17 ? 'Good afternoon' : 'Good evening'; }
+function updateGreeting(){ const el = document.getElementById('dashGreeting'); if(el) el.textContent = greeting()+', '+firstName(currentUser().name)+' 👋'; }
+function renderUserChip(){
+  const u = currentUser();
+  document.getElementById('userAvatar').textContent = initials(u.name);
+  document.getElementById('userName').textContent = u.name;
+  document.getElementById('userRole').textContent = u.role;
+  updateGreeting();
+}
+
+/* Assign a candidate to a recruiter */
+function recruiterOptions(c){
+  const names = recruiterNames(); if(c.recruiter && !names.includes(c.recruiter)) names.push(c.recruiter);
+  return names.map(n=>'<option'+(n===c.recruiter?' selected':'')+'>'+escHtml(n)+'</option>').join('');
+}
+function assignRecruiter(id, name){
+  const c = candidates.find(x=>x.id===id); if(!c || !name) return;
+  c.recruiter = name; toast(c.name+' is now assigned to '+name); refreshAll();
+}
+
+/* ---------- team table ---------- */
+function renderSettings(){
+  document.getElementById('teamTable').innerHTML =
+    '<thead><tr><th>Member</th><th>Role</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+
+    TEAM.map(t=>{
+      const you = t.id===CURRENT_USER_ID; const invited = t.status==='Invited';
+      return '<tr><td><div class="row-flex"><div class="avatar-sm">'+escHtml(initials(t.name))+'</div><div><div class="cell-main">'+escHtml(t.name)+(you?' <span class="cell-sub">(you)</span>':'')+'</div>'+(t.phone?'<div class="cell-sub">'+escHtml(t.phone)+'</div>':'')+'</div></div></td>'+
+        '<td>'+escHtml(t.role)+'</td><td>'+escHtml(t.email)+'</td>'+
+        '<td><span class="status-pill dot '+(invited?'status-hold':'status-open')+'">'+(invited?'Invited '+fmtDate(t.invitedAt):'Active')+'</span></td>'+
+        '<td><div class="actions-row">'+
+          '<button class="icon-action" onclick="openMemberModal(\''+t.id+'\')" data-tt title="Edit profile">'+ICONS.edit+'</button>'+
+          (invited ? '<button class="icon-action" onclick="showInviteStep(\''+t.id+'\')" data-tt title="Send or resend invite">'+ICONS.mail+'</button><button class="icon-action" onclick="markJoined(\''+t.id+'\')" data-tt title="Mark as joined">'+ICONS.hire+'</button>' : '')+
+          (you ? '' : '<button class="icon-action" onclick="removeMember(\''+t.id+'\')" data-tt title="Remove from team">'+ICONS.trash+'</button>')+
+        '</div></td></tr>';
+    }).join('') + '</tbody>';
+}
+
+/* ---------- add / edit ---------- */
+function openMemberModal(id){
+  teamEditId = id || null; emailTouched = !!id;
+  const m = id ? TEAM.find(t=>t.id===id) : null;
+  document.getElementById('teamModalTitle').textContent = !m ? 'Add team member' : (m.id===CURRENT_USER_ID ? 'My profile' : 'Edit team member');
+  document.getElementById('teamModalBody').innerHTML = `
+    <div class="form-grid">
+      <div class="field span2"><label>Full name</label><input id="tm_name" value="${escAttr(m?m.name:'')}" oninput="onMemberName()" placeholder="e.g. Lepi Roikah"></div>
+      <div class="field"><label>Role</label><select id="tm_role">${TEAM_ROLES.concat(m && !TEAM_ROLES.includes(m.role) ? [m.role] : []).map(r=>'<option'+(m&&r===m.role?' selected':'')+'>'+escHtml(r)+'</option>').join('')}</select></div>
+      <div class="field"><label>Phone <span class="hint">(optional)</span></label><input id="tm_phone" value="${escAttr(m?m.phone||'':'')}" placeholder="+62 …"></div>
+      <div class="field span2"><label>Email</label><input id="tm_email" type="email" value="${escAttr(m?m.email:'')}" oninput="emailTouched=true;onMemberEmail()" placeholder="name@${escAttr(ORG.domain)}"><div class="hint" id="tm_email_hint">Company email, for example kelly@${escHtml(ORG.domain)}</div></div>
+    </div>
+    ${m ? '' : '<p class="cell-sub" style="margin:14px 0 0;">After you save, an invitation email is prepared for them to open and send.</p>'}
+    ${m && m.id===CURRENT_USER_ID ? '<p class="cell-sub" style="margin:14px 0 0;">Changing your name or role updates the top-right profile and the notes and assignments that carry your name.</p>' : ''}`;
+  document.getElementById('teamModalFoot').innerHTML = '<button class="btn btn-secondary" onclick="closeModal(\'teamOverlay\')">Cancel</button><button class="btn btn-primary" onclick="saveMember()">'+(m?'Save changes':'Save and prepare invite')+'</button>';
+  document.getElementById('teamOverlay').classList.add('show');
+  onMemberEmail();
+}
+function onMemberName(){
+  if(emailTouched) return;
+  document.getElementById('tm_email').value = suggestEmail(document.getElementById('tm_name').value);
+  onMemberEmail();
+}
+function onMemberEmail(){
+  const e = document.getElementById('tm_email').value.trim().toLowerCase(); const hint = document.getElementById('tm_email_hint');
+  if(!e){ hint.style.color = ''; hint.textContent = 'Company email, for example kelly@'+ORG.domain; return; }
+  if(!validEmail(e)){ hint.style.color = '#B42318'; hint.textContent = 'This is not a valid email address yet.'; return; }
+  if(!e.endsWith('@'+ORG.domain.toLowerCase())){ hint.style.color = '#B54708'; hint.textContent = 'Not a @'+ORG.domain+' address. You can still continue.'; return; }
+  hint.style.color = ''; hint.textContent = 'Company email';
+}
+function saveMember(){
+  const v = id=>document.getElementById(id).value.trim();
+  const name = v('tm_name'), role = v('tm_role'), email = v('tm_email').toLowerCase(), phone = v('tm_phone');
+  if(!name){ toast('Enter a full name'); return; }
+  if(!validEmail(email)){ toast('Enter a valid email address'); return; }
+  const other = TEAM.filter(t=>t.id!==teamEditId);
+  if(other.some(t=>t.email.toLowerCase()===email)){ toast('That email is already on the team'); return; }
+  if(other.some(t=>normName(t.name)===normName(name))){ toast('Someone with that name is already on the team'); return; }
+  const m = TEAM.find(t=>t.id===teamEditId);
+  if(m){
+    const old = m.name;
+    Object.assign(m, {name, role, email, phone});
+    if(old!==name) candidates.forEach(c=>{ if(c.recruiter===old) c.recruiter = name; (c.notes||[]).forEach(n=>{ if(n.by===old) n.by = name; }); });
+    closeModal('teamOverlay'); renderUserChip(); refreshAll(); toast('Saved changes for '+name);
+  } else {
+    const nm = {id:'tm'+Date.now().toString().slice(-7), name, role, email, phone, status:'Invited', invitedAt:todayISO()};
+    TEAM.push(nm); refreshAll(); showInviteStep(nm.id);
+  }
+}
+
+/* ---------- invite by email ---------- */
+function inviteDraft(m, lang){
+  const inviter = currentUser().name, link = ORG.inviteLink;
+  if(lang==='id') return {
+    subject:'Undangan bergabung di TALANTA, platform rekrutmen ANTARA ETP',
+    body:'Halo '+firstName(m.name)+',\n\n'+inviter+' mengundang Anda untuk bergabung di TALANTA, platform rekrutmen dan manajemen kandidat PT Antara Elektronik Transaksi Pratama, sebagai '+m.role+'.\n\nBuka TALANTA di sini:\n'+link+'\n\nJika undangan ini tidak sesuai, abaikan saja email ini.\n\nTerima kasih,\n'+inviter};
+  return {
+    subject:'You are invited to join TALANTA, the ANTARA ETP recruitment platform',
+    body:'Hi '+firstName(m.name)+',\n\n'+inviter+' has invited you to join TALANTA, the recruitment and candidate platform of PT Antara Elektronik Transaksi Pratama, as '+m.role+'.\n\nOpen TALANTA here:\n'+link+'\n\nIf this does not look right, you can ignore this email.\n\nThanks,\n'+inviter};
+}
+function showInviteStep(id){
+  const m = TEAM.find(t=>t.id===id); if(!m) return;
+  inviteMemberId = id;
+  document.getElementById('teamModalTitle').textContent = 'Invite '+m.name;
+  document.getElementById('teamModalBody').innerHTML = `
+    <div class="form-grid one">
+      <div class="field"><label>To</label><input value="${escAttr(m.email)}" disabled style="background:var(--bg);"></div>
+      <div class="field"><label>Language</label><select id="inv_lang" onchange="loadInviteDraft()"><option value="en">English</option><option value="id">Bahasa Indonesia</option></select></div>
+      <div class="field"><label>Subject</label><input id="inv_subject" oninput="syncInviteLink()"></div>
+      <div class="field"><label>Message</label><textarea id="inv_body" rows="10" oninput="syncInviteLink()"></textarea></div>
+    </div>
+    ${noticeHtml('info','TALANTA cannot send email by itself. <b>Open in email app</b> prepares this message in your mail program, and you send it from there. If nothing opens, use <b>Copy message</b>. The link only opens for people you have shared the page with in Claude.')}`;
+  document.getElementById('teamModalFoot').innerHTML = '<button class="btn btn-secondary" onclick="closeModal(\'teamOverlay\')">Done</button><button class="btn btn-secondary" onclick="copyInvite()">Copy message</button><a class="btn btn-primary" id="inv_mailto" href="#">Open in email app</a>';
+  document.getElementById('teamOverlay').classList.add('show');
+  loadInviteDraft();
+}
+function loadInviteDraft(){
+  const m = TEAM.find(t=>t.id===inviteMemberId); const d = inviteDraft(m, document.getElementById('inv_lang').value);
+  document.getElementById('inv_subject').value = d.subject; document.getElementById('inv_body').value = d.body; syncInviteLink();
+}
+function syncInviteLink(){
+  const m = TEAM.find(t=>t.id===inviteMemberId); if(!m) return;
+  document.getElementById('inv_mailto').href = 'mailto:'+m.email+'?subject='+encodeURIComponent(document.getElementById('inv_subject').value)+'&body='+encodeURIComponent(document.getElementById('inv_body').value).replace(/%0A/g,'%0D%0A');
+}
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }
+  catch(e){
+    try{ const ta = document.createElement('textarea'); ta.value = t; ta.style.cssText = 'position:fixed;opacity:0;'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok; }
+    catch(_){ return false; }
+  }
+}
+async function copyInvite(){
+  const t = 'Subject: '+document.getElementById('inv_subject').value+'\n\n'+document.getElementById('inv_body').value;
+  toast(await copyText(t) ? 'Invite message copied' : 'Could not copy, select the text and copy it by hand');
+}
+function markJoined(id){
+  const m = TEAM.find(t=>t.id===id); if(!m) return;
+  m.status = 'Active'; refreshAll(); toast(m.name+' is marked as joined');
+}
+function removeMember(id){
+  const m = TEAM.find(t=>t.id===id); if(!m || id===CURRENT_USER_ID) return;
+  const n = candidates.filter(c=>c.recruiter===m.name).length; const me = currentUser().name;
+  askConfirm({
+    title:'Remove team member?',
+    bodyHtml:'<p style="margin:0 0 10px;font-size:13.5px;">Remove <b>'+escHtml(m.name)+'</b> ('+escHtml(m.email)+') from the team?</p>'+
+      (n?'<p style="margin:0 0 10px;font-size:13px;color:#344054;">Their '+n+' assigned candidate'+(n===1?'':'s')+' will move to <b>'+escHtml(me)+'</b>.</p>':'')+
+      (m.status==='Invited'?'<p style="margin:0 0 10px;font-size:13px;color:#344054;">An invitation email that was already sent cannot be recalled.</p>':'')+
+      '<p style="margin:0;font-size:12.5px;font-weight:700;color:#B42318;">This cannot be undone.</p>',
+    okLabel:'Remove',
+    onOk:()=>{ candidates.forEach(c=>{ if(c.recruiter===m.name) c.recruiter = me; }); TEAM.splice(TEAM.findIndex(t=>t.id===id),1); refreshAll(); toast(m.name+' was removed from the team'); },
+  });
+}
+
+/* =========================================================================
+   CONTACT: email, call and schedule interviews with Outlook (Microsoft) or Gmail
+   (TALANTA opens the provider with everything filled in; it does not send for you)
+   ========================================================================= */
+const MAIL_PROVIDERS = [
+  {id:'outlook',    label:'Outlook (Microsoft 365)', short:'Outlook'},
+  {id:'outlookcom', label:'Outlook.com (personal)',  short:'Outlook.com'},
+  {id:'gmail',      label:'Gmail',                   short:'Gmail'},
+  {id:'app',        label:'Email app on this device', short:'your email app'},
+];
+const INTERVIEW_TYPES = ['Interview 1','Interview 2','Assessment','Final Interview'];
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+let mailProvider = lsGet('talanta_mail'); if(!MAIL_PROVIDERS.some(p=>p.id===mailProvider)) mailProvider = 'outlook';
+let currentProfileId = null, commCandId = null;
+const candById = id=>candidates.find(c=>c.id===id);
+const provShort = ()=>MAIL_PROVIDERS.find(p=>p.id===mailProvider).short;
+
+/* sample interviews were entered for the demo date; move them so they are upcoming today */
+(function shiftSampleInterviews(){
+  const diff = Math.round((new Date(todayISO()+'T00:00:00') - new Date('2026-09-28T00:00:00'))/86400000);
+  if(diff<=0) return;
+  candidates.forEach(c=>{ if(!c.interviewDate) return; const [d,t] = c.interviewDate.split('T'); let nd = addDays(d, diff); const wd = new Date(nd+'T00:00:00').getDay(); if(wd===6) nd = addDays(nd,2); else if(wd===0) nd = addDays(nd,1); c.interviewDate = nd+'T'+t; });
+})();
+
+function e164(phone){
+  const p = String(phone||'').replace(/[^\d+]/g,'');
+  if(p.startsWith('+')) return p; if(p.startsWith('00')) return '+'+p.slice(2);
+  if(p.startsWith('0')) return '+62'+p.slice(1); return '+'+p;
+}
+function refreshProfileIfOpen(id){
+  if(currentProfileId===id && document.getElementById('profileOverlay').classList.contains('show')) openProfile(id);
+}
+function logContact(c, text){ c.notes = c.notes || []; c.notes.unshift({by:currentUser().name, date:todayISO(), text}); refreshProfileIfOpen(c.id); }
+function quickBtns(c){
+  const id = c.id; const b = (fn,title,icon,label)=>'<button type="button" title="'+title+'" onclick="event.stopPropagation();'+fn+'(\''+id+'\')">'+icon+'<span>'+label+'</span></button>';
+  return b('openEmailDialog','Email',ICONS.mail,'Email')+b('openCallDialog','Call',ICONS.phone,'Call')+b('openScheduleDialog','Schedule interview',ICONS.calendar,'Interview');
+}
+function quickIcons(c){
+  const id = c.id; const b = (fn,title,icon)=>'<button type="button" title="'+title+'" aria-label="'+title+'" onclick="event.stopPropagation();'+fn+'(\''+id+'\')">'+icon+'</button>';
+  return b('openEmailDialog','Email',ICONS.mail)+b('openCallDialog','Call',ICONS.phone)+b('openScheduleDialog','Schedule interview',ICONS.calendar);
+}
+function openComm(title, bodyHtml, footHtml){
+  document.getElementById('commTitle').textContent = title;
+  document.getElementById('commBody').innerHTML = bodyHtml;
+  document.getElementById('commFoot').innerHTML = footHtml;
+  document.getElementById('commOverlay').classList.add('show');
+}
+
+/* ---------- interview data ---------- */
+function getInterview(c){
+  if(c.interview) return c.interview;
+  if(c.interviewDate) return {type:INTERVIEW_TYPES.includes(c.stage)?c.stage:'Interview 1', start:c.interviewDate.slice(0,16), minutes:60, format:'On-site', where:'', interviewers:[c.recruiter], note:''};
+  return null;
+}
+function fmtWhen(iv, lang){
+  const [d,t] = iv.start.split('T');
+  const day = new Intl.DateTimeFormat(lang==='id'?'id-ID':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(d+'T00:00:00'));
+  return day+', '+t.slice(0,5)+' WIB';
+}
+function memberEmail(name){ const m = TEAM.find(t=>t.name===name); return m ? m.email : ''; }
+function interviewSummaryHtml(c){
+  const iv = getInterview(c);
+  if(!iv) return '<div class="std-card"><div class="cell-sub">No interview scheduled yet.</div><button class="btn btn-soft btn-sm" style="margin-top:8px;" onclick="openScheduleDialog(\''+c.id+'\')">'+ICONS.calendar+' Schedule interview</button></div>';
+  return '<div class="std-card"><div class="section-title" style="font-size:13px;">'+escHtml(iv.type)+': '+escHtml(fmtWhen(iv,'en'))+'</div>'+
+    '<div class="cell-sub" style="margin:3px 0 10px;">'+iv.minutes+' min · '+escHtml(iv.format)+(iv.where?' · '+escHtml(iv.where):'')+' · '+escHtml((iv.interviewers||[]).join(', '))+'</div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-secondary btn-sm" onclick="openScheduleDialog(\''+c.id+'\')">Reschedule</button><button class="btn btn-secondary btn-sm" onclick="showInterviewDone(\''+c.id+'\')">'+ICONS.calendar+' Add to calendar</button><button class="btn btn-secondary btn-sm" onclick="openEmailDialog(\''+c.id+'\',\'interview\')">'+ICONS.mail+' Email invitation</button></div></div>';
+}
+
+/* ---------- links for Outlook, Gmail and calendars ---------- */
+function mailLink(provider, to, subject, body, cc){
+  const q = encodeURIComponent;
+  if(provider==='gmail') return 'https://mail.google.com/mail/?view=cm&fs=1&to='+q(to)+(cc?'&cc='+q(cc):'')+'&su='+q(subject)+'&body='+q(body);
+  if(provider==='outlook') return 'https://outlook.office.com/mail/deeplink/compose?to='+q(to)+(cc?'&cc='+q(cc):'')+'&subject='+q(subject)+'&body='+q(body);
+  if(provider==='outlookcom') return 'https://outlook.live.com/mail/0/deeplink/compose?to='+q(to)+(cc?'&cc='+q(cc):'')+'&subject='+q(subject)+'&body='+q(body);
+  return 'mailto:'+to+'?'+(cc?'cc='+q(cc)+'&':'')+'subject='+q(subject)+'&body='+q(body).replace(/%0A/g,'%0D%0A');
+}
+function interviewUtc(iv){   // times are entered in Jakarta time (WIB, UTC+7)
+  const [d,t] = iv.start.split('T'); const [Y,M,D] = d.split('-').map(Number); const [h,mi] = t.split(':').map(Number);
+  const start = new Date(Date.UTC(Y,M-1,D,h-7,mi)); return {start, end:new Date(start.getTime()+iv.minutes*60000)};
+}
+const icsStamp = d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+const isoStamp = d=>d.toISOString().replace(/\.\d{3}/,'');
+function eventTitle(c, iv){ return iv.type+': '+(jobById(c.jobId)?jobById(c.jobId).title:'Interview')+' ('+c.name+')'; }
+function eventDetails(c, iv){   // candidate-safe: the candidate is a guest, so no internal notes or contact details
+  return ['Interview for '+(jobById(c.jobId)?jobById(c.jobId).title:'the position')+' at PT Antara Elektronik Transaksi Pratama','Format: '+iv.format+(iv.where?' ('+iv.where+')':''),'Interviewers: '+(iv.interviewers||[]).join(', '),iv.note?'':null,iv.note||null].filter(x=>x!==null).join('\n');
+}
+function guestEmails(c, iv){ return [c.email].concat((iv.interviewers||[]).map(memberEmail)).filter(Boolean); }
+function outlookCalLink(c, iv, personal){
+  const {start,end} = interviewUtc(iv); const q = encodeURIComponent;
+  return (personal?'https://outlook.live.com':'https://outlook.office.com')+'/calendar/0/deeplink/compose?path='+q('/calendar/action/compose')+'&rru=addevent&startdt='+q(isoStamp(start))+'&enddt='+q(isoStamp(end))+
+    '&subject='+q(eventTitle(c,iv))+'&body='+q(eventDetails(c,iv))+'&location='+q(iv.where||'')+'&to='+q(guestEmails(c,iv).join(';'));
+}
+function googleCalLink(c, iv){
+  const {start,end} = interviewUtc(iv); const q = encodeURIComponent;
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+q(eventTitle(c,iv))+'&dates='+icsStamp(start)+'/'+icsStamp(end)+'&details='+q(eventDetails(c,iv))+'&location='+q(iv.where||'')+'&add='+q(guestEmails(c,iv).join(','));
+}
+function icsText(c, iv){
+  const {start,end} = interviewUtc(iv); const me = currentUser();
+  const esc = s=>String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+  const fold = l=>{ const out=[]; while(l.length>73){ out.push(l.slice(0,73)); l=' '+l.slice(73); } out.push(l); return out.join('\r\n'); };
+  const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//TALANTA//ANTARA ETP//EN','METHOD:PUBLISH','BEGIN:VEVENT',
+    'UID:talanta-'+c.id+'-'+start.getTime()+'@'+ORG.domain,'DTSTAMP:'+icsStamp(new Date()),'DTSTART:'+icsStamp(start),'DTEND:'+icsStamp(end),
+    'SUMMARY:'+esc(eventTitle(c,iv)),'DESCRIPTION:'+esc(eventDetails(c,iv))];
+  if(iv.where) lines.push('LOCATION:'+esc(iv.where));
+  lines.push('ORGANIZER;CN='+esc(me.name)+':mailto:'+me.email);
+  if(c.email) lines.push('ATTENDEE;CN='+esc(c.name)+';ROLE=REQ-PARTICIPANT:mailto:'+c.email);
+  (iv.interviewers||[]).forEach(n=>{ const em = memberEmail(n); if(em) lines.push('ATTENDEE;CN='+esc(n)+';ROLE=REQ-PARTICIPANT:mailto:'+em); });
+  lines.push('END:VEVENT','END:VCALENDAR');
+  return lines.map(fold).join('\r\n')+'\r\n';
+}
+async function downloadIcs(id){
+  const c = candById(id); const iv = getInterview(c); if(!iv) return;
+  const ok = await saveFile('interview-'+c.name.replace(/[^A-Za-z0-9]+/g,'-')+'.ics', icsText(c,iv), 'text/calendar');
+  if(ok) toast('Calendar file saved');
+}
+
+/* ---------- email ---------- */
+function emailDraft(c, key, lang){
+  const me = currentUser(), first = firstName(c.name), id = lang==='id';
+  const job = jobById(c.jobId) ? jobById(c.jobId).title : (id?'posisi ini':'the position');
+  const iv = getInterview(c);
+  const sig = id ? 'Terima kasih,\n'+me.name+'\n'+me.role+', PT Antara Elektronik Transaksi Pratama\n'+me.email : 'Thank you,\n'+me.name+'\n'+me.role+', PT Antara Elektronik Transaksi Pratama\n'+me.email;
+  const T = {
+    interview: id ? {s:'Undangan wawancara: '+job+' di ANTARA ETP', b:()=>'Halo '+first+',\n\nTerima kasih telah melamar posisi '+job+' di PT Antara Elektronik Transaksi Pratama. Kami mengundang Anda untuk mengikuti '+(iv ? (iv.type==='Assessment' ? 'asesmen' : 'wawancara ('+iv.type+')') : 'wawancara')+':\n\nTanggal dan jam: '+(iv?fmtWhen(iv,'id'):'[tanggal dan jam]')+'\nDurasi: '+(iv?iv.minutes:60)+' menit\nFormat: '+(iv?iv.format+(iv.where?' ('+iv.where+')':''):'[online / tatap muka]')+'\nPewawancara: '+(iv?(iv.interviewers||[]).join(', '):'[nama]')+(iv&&iv.note?'\n\n'+iv.note:'')+'\n\nMohon balas email ini untuk mengonfirmasi bahwa jadwal tersebut sesuai, atau usulkan waktu lain.\n\n'+sig}
+      : {s:'Interview invitation: '+job+' at ANTARA ETP', b:()=>'Hi '+first+',\n\nThank you for applying for the '+job+' position at PT Antara Elektronik Transaksi Pratama. We would like to invite you to '+(iv ? (iv.type==='Assessment' ? 'an assessment' : 'an interview ('+iv.type+')') : 'an interview')+':\n\nDate and time: '+(iv?fmtWhen(iv,'en'):'[date and time]')+'\nDuration: '+(iv?iv.minutes:60)+' minutes\nFormat: '+(iv?iv.format+(iv.where?' ('+iv.where+')':''):'[online / on-site]')+'\nInterviewer(s): '+(iv?(iv.interviewers||[]).join(', '):'[names]')+(iv&&iv.note?'\n\n'+iv.note:'')+'\n\nPlease reply to confirm that this time works for you, or suggest another time.\n\n'+sig},
+    received: id ? {s:'Lamaran Anda untuk '+job+' telah kami terima', b:()=>'Halo '+first+',\n\nTerima kasih telah melamar posisi '+job+' di PT Antara Elektronik Transaksi Pratama. Lamaran Anda sudah kami terima dan sedang ditinjau oleh tim kami. Kami akan menghubungi Anda kembali mengenai tahap selanjutnya.\n\n'+sig}
+      : {s:'We received your application for '+job, b:()=>'Hi '+first+',\n\nThank you for applying for the '+job+' position at PT Antara Elektronik Transaksi Pratama. We have received your application and our team is reviewing it. We will contact you about the next steps soon.\n\n'+sig},
+    documents: id ? {s:'Dokumen untuk lamaran '+job, b:()=>'Halo '+first+',\n\nTerima kasih atas minat Anda pada posisi '+job+'. Untuk melanjutkan proses, mohon kirimkan:\n\n- CV terbaru\n- Salinan ijazah terakhir\n- Sertifikat yang relevan (jika ada)\n\nAnda dapat membalas email ini dengan melampirkan berkasnya.\n\n'+sig}
+      : {s:'Documents for your '+job+' application', b:()=>'Hi '+first+',\n\nThank you for your interest in the '+job+' position. To continue, please send us:\n\n- Your latest CV\n- A copy of your highest degree certificate\n- Any relevant certifications\n\nYou can reply to this email with the files attached.\n\n'+sig},
+    followup: id ? {s:'Tindak lanjut lamaran '+job, b:()=>'Halo '+first+',\n\nSaya menindaklanjuti lamaran Anda untuk posisi '+job+' di PT Antara Elektronik Transaksi Pratama.\n\n[Tulis pesan Anda di sini]\n\n'+sig}
+      : {s:'Following up on your application for '+job, b:()=>'Hi '+first+',\n\nI am following up on your application for the '+job+' position at PT Antara Elektronik Transaksi Pratama.\n\n[Write your message here]\n\n'+sig},
+    decline: id ? {s:'Lamaran Anda untuk '+job, b:()=>'Halo '+first+',\n\nTerima kasih atas waktu dan usaha Anda dalam proses lamaran ini. Setelah pertimbangan yang matang, saat ini kami belum dapat melanjutkan lamaran Anda untuk posisi '+job+'.\n\nKami senang mengenal latar belakang Anda. Dengan persetujuan Anda, kami ingin menyimpan data Anda untuk kesempatan di masa mendatang. Mohon beri tahu kami jika Anda tidak berkenan.\n\nSemoga sukses selalu.\n\n'+sig}
+      : {s:'Your application for '+job, b:()=>'Hi '+first+',\n\nThank you for the time you put into your application. After careful consideration, we will not move forward with your application for the '+job+' position at this time.\n\nWe enjoyed learning about your background and, with your permission, would like to keep your details on file for future openings. Please let us know if you would prefer that we do not.\n\nWe wish you all the best.\n\n'+sig},
+  };
+  const t = T[key] || T.followup;
+  return {subject:t.s, body:t.b()};
+}
+const EMAIL_TEMPLATES = [['interview','Interview invitation'],['received','Application received'],['documents','Request documents'],['followup','General follow-up'],['decline','Not moving forward']];
+function openEmailDialog(id, tpl){
+  const c = candById(id); if(!c) return;
+  if(!c.email){ toast(c.name+' has no email address on file'); return; }
+  commCandId = id;
+  const key = tpl || (getInterview(c) ? 'interview' : 'followup');
+  openComm('Email '+c.name, `
+    <div class="form-grid">
+      <div class="field span2"><label>To</label><input value="${escAttr(c.email)}" disabled style="background:var(--bg);"></div>
+      <div class="field"><label>Send with</label><select id="em_provider" onchange="setMailProvider(this.value)">${MAIL_PROVIDERS.map(p=>'<option value="'+p.id+'"'+(p.id===mailProvider?' selected':'')+'>'+p.label+'</option>').join('')}</select></div>
+      <div class="field"><label>Language</label><select id="em_lang" onchange="loadEmailDraft()"><option value="en">English</option><option value="id">Bahasa Indonesia</option></select></div>
+      <div class="field span2"><label>Template</label><select id="em_tpl" onchange="loadEmailDraft()">${EMAIL_TEMPLATES.map(([k,l])=>'<option value="'+k+'"'+(k===key?' selected':'')+'>'+l+'</option>').join('')}</select></div>
+      <div class="field span2"><label>Subject</label><input id="em_subject" oninput="syncMailLink()"></div>
+      <div class="field span2"><label>Message</label><textarea id="em_body" rows="11" oninput="syncMailLink()"></textarea></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+      <label class="chip-check"><input type="checkbox" id="em_cc" onchange="syncMailLink()"> CC me (${escHtml(currentUser().email)})</label>
+      <label class="chip-check"><input type="checkbox" id="em_log" checked> Add to candidate notes</label>
+    </div>
+    ${noticeHtml('info','TALANTA opens your email with this message filled in. You review and press Send there. If nothing opens, use <b>Copy message</b>.')}`,
+    '<button class="btn btn-secondary" onclick="closeModal(\'commOverlay\')">Cancel</button><button class="btn btn-secondary" onclick="copyEmail()">Copy message</button><a class="btn btn-primary" id="em_open" href="#" rel="noopener" onclick="onMailOpened()">Open in Outlook</a>');
+  loadEmailDraft();
+}
+function loadEmailDraft(){
+  const c = candById(commCandId); const d = emailDraft(c, document.getElementById('em_tpl').value, document.getElementById('em_lang').value);
+  document.getElementById('em_subject').value = d.subject; document.getElementById('em_body').value = d.body; syncMailLink();
+}
+function setMailProvider(p){ mailProvider = p; lsSet('talanta_mail', p); syncMailLink(); }
+function syncMailLink(){
+  const c = candById(commCandId); const a = document.getElementById('em_open'); if(!c || !a) return;
+  const cc = document.getElementById('em_cc').checked ? currentUser().email : '';
+  a.href = mailLink(mailProvider, c.email, document.getElementById('em_subject').value, document.getElementById('em_body').value, cc);
+  if(mailProvider==='app') a.removeAttribute('target'); else a.target = '_blank';
+  a.textContent = 'Open in '+provShort();
+}
+function onMailOpened(){
+  const c = candById(commCandId); if(!c) return;
+  if(document.getElementById('em_log').checked) logContact(c, 'Email draft opened in '+provShort()+': '+document.getElementById('em_subject').value);
+  toast('Draft opened in '+provShort()+'. Press Send there.');
+}
+async function copyEmail(){
+  const t = 'To: '+candById(commCandId).email+'\nSubject: '+document.getElementById('em_subject').value+'\n\n'+document.getElementById('em_body').value;
+  toast(await copyText(t) ? 'Message copied' : 'Could not copy, select the text and copy it by hand');
+}
+
+/* ---------- call ---------- */
+function openCallDialog(id){
+  const c = candById(id); if(!c) return;
+  if(!c.phone){ toast(c.name+' has no phone number on file'); return; }
+  commCandId = id; const num = e164(c.phone);
+  openComm('Call '+c.name, `
+    <div style="text-align:center;padding:6px 0 16px;"><div class="cell-sub">Phone</div><div style="font-size:24px;font-weight:800;letter-spacing:.3px;">${escHtml(c.phone)}</div><div class="cell-sub">${escHtml(num)}</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+      <a class="btn btn-primary" href="tel:${escAttr(num)}" onclick="onCallStarted('phone app')">${ICONS.phone} Call with phone app</a>
+      <a class="btn btn-secondary" href="https://teams.microsoft.com/l/call/0/0?users=4:${encodeURIComponent(num)}" target="_blank" rel="noopener" onclick="onCallStarted('Microsoft Teams')">Call in Microsoft Teams</a>
+      <button class="btn btn-secondary" onclick="copyNumber()">Copy number</button>
+    </div>
+    <div class="std-card" style="margin-top:18px;">
+      <div class="section-title" style="font-size:13px;">Log this call <span class="cell-sub">· saved to the candidate's notes</span></div>
+      <div class="form-grid" style="margin-top:10px;">
+        <div class="field"><label>Outcome</label><select id="call_outcome"><option>Spoke with candidate</option><option>No answer</option><option>Left a voicemail</option><option>Asked to call back later</option><option>Wrong number</option></select></div>
+        <div class="field span2"><label>Notes <span class="hint">(optional)</span></label><textarea id="call_note" rows="3" placeholder="What was agreed or said"></textarea></div>
+      </div>
+      <button class="btn btn-soft btn-sm" style="margin-top:10px;" onclick="saveCallLog()">Save call log</button>
+    </div>
+    ${noticeHtml('info','Your device or Teams starts the call. Teams needs calling to phone numbers enabled for your company account.')}`,
+    '<button class="btn btn-secondary" onclick="closeModal(\'commOverlay\')">Close</button>');
+}
+function onCallStarted(via){ toast('Opening '+via+'. Log the call below when you are done.'); }
+async function copyNumber(){ toast(await copyText(e164(candById(commCandId).phone)) ? 'Number copied' : 'Could not copy the number'); }
+function saveCallLog(){
+  const c = candById(commCandId); const o = document.getElementById('call_outcome').value; const n = document.getElementById('call_note').value.trim();
+  logContact(c, 'Call: '+o+(n?'. '+n:'')); document.getElementById('call_note').value = ''; toast('Call log saved to notes');
+}
+
+/* ---------- schedule an interview ---------- */
+function nextWorkday(){ let d = addDays(todayISO(),1); while([0,6].includes(new Date(d+'T00:00:00').getDay())) d = addDays(d,1); return d; }
+function openScheduleDialog(id){
+  const c = candById(id); if(!c) return;
+  commCandId = id; const ex = getInterview(c);
+  const date = ex ? ex.start.slice(0,10) : nextWorkday(), time = ex ? ex.start.slice(11,16) : '10:00';
+  const type = ex ? ex.type : (INTERVIEW_TYPES.includes(c.stage) ? c.stage : 'Interview 1');
+  const chosen = ex ? ex.interviewers : [...new Set([currentUser().name, c.recruiter])];
+  const members = TEAM.filter(t=>t.status==='Active' || chosen.includes(t.name));
+  const canMove = !['Hired','Rejected','Offer'].includes(c.stage) && STAGES.indexOf(c.stage) < STAGES.indexOf(type);
+  openComm((c.interview||c.interviewDate)?'Reschedule interview: '+c.name:'Schedule interview: '+c.name, `
+    <div class="form-grid">
+      <div class="field"><label>Interview</label><select id="sc_type" onchange="onScheduleType()">${INTERVIEW_TYPES.map(t=>'<option'+(t===type?' selected':'')+'>'+t+'</option>').join('')}</select></div>
+      <div class="field"><label>Length</label><select id="sc_minutes">${[30,45,60,90].map(m=>'<option value="'+m+'"'+(m===(ex?ex.minutes:60)?' selected':'')+'>'+m+' minutes</option>').join('')}</select></div>
+      <div class="field"><label>Date</label><input type="date" id="sc_date" value="${date}" min="${todayISO()}"></div>
+      <div class="field"><label>Start time <span class="hint">(Jakarta time, WIB)</span></label><input type="time" id="sc_time" value="${time}"></div>
+      <div class="field"><label>Format</label><select id="sc_format" onchange="onScheduleFormat()"><option${ex&&ex.format==='Online'?' selected':''}>Online</option><option${!ex||ex.format!=='Online'?' selected':''}>On-site</option></select></div>
+      <div class="field"><label id="sc_where_label">Office address</label><input id="sc_where" value="${escAttr(ex?ex.where:'')}" placeholder=""></div>
+      <div class="field span2"><label>Interviewers</label><div style="display:flex;flex-wrap:wrap;gap:8px;">${members.map(m=>'<label class="chip-check"><input type="checkbox" class="sc_iv" value="'+escAttr(m.name)+'"'+(chosen.includes(m.name)?' checked':'')+'> '+escHtml(m.name)+'</label>').join('')}</div></div>
+      <div class="field span2"><label>Message for the candidate <span class="hint">(shown in the calendar invitation, so keep it candidate-friendly)</span></label><textarea id="sc_note" rows="2">${escHtml(ex?ex.note:'')}</textarea></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">${canMove?'<label class="chip-check"><input type="checkbox" id="sc_move" checked> Move candidate to <b id="sc_move_label" style="margin-left:2px;">'+escHtml(type)+'</b></label>':''}</div>`,
+    '<button class="btn btn-secondary" onclick="closeModal(\'commOverlay\')">Cancel</button>'+((c.interview||c.interviewDate)?'<button class="btn btn-danger-soft" onclick="cancelInterview(\''+id+'\')">Cancel interview</button>':'')+'<button class="btn btn-primary" onclick="saveInterview()">Save interview</button>');
+  onScheduleFormat();
+}
+function onScheduleType(){ const l = document.getElementById('sc_move_label'); if(l) l.textContent = document.getElementById('sc_type').value; }
+function onScheduleFormat(){
+  const online = document.getElementById('sc_format').value==='Online';
+  document.getElementById('sc_where_label').textContent = online ? 'Meeting link' : 'Office address';
+  document.getElementById('sc_where').placeholder = online ? 'Paste the Teams or Meet link' : 'e.g. ANTARA ETP office, meeting room';
+}
+function findInterviewConflict(iv, exceptId){
+  const {start,end} = interviewUtc(iv);
+  for(const o of candidates){
+    if(o.id===exceptId) continue; const oi = getInterview(o); if(!oi) continue;
+    const u = interviewUtc(oi); if(!(start<u.end && u.start<end)) continue;
+    const shared = (iv.interviewers||[]).find(n=>(oi.interviewers||[]).includes(n)); if(shared) return {c:o, who:shared};
+  }
+  return null;
+}
+function saveInterview(){
+  const c = candById(commCandId); const v = id=>document.getElementById(id).value.trim();
+  const date = v('sc_date'), time = v('sc_time');
+  if(!date || !time){ toast('Pick a date and a start time'); return; }
+  if(date < todayISO()){ toast('Pick today or a later date'); return; }
+  const people = [...document.querySelectorAll('.sc_iv:checked')].map(i=>i.value);
+  if(!people.length){ toast('Choose at least one interviewer'); return; }
+  const iv = {type:v('sc_type'), start:date+'T'+time, minutes:Number(v('sc_minutes'))||60, format:v('sc_format'), where:v('sc_where'), interviewers:people, note:v('sc_note')};
+  const conflict = findInterviewConflict(iv, c.id);
+  const reschedule = !!(c.interview||c.interviewDate);
+  c.interview = iv; c.interviewDate = iv.start;
+  const mv = document.getElementById('sc_move'); if(mv && mv.checked && STAGES.indexOf(c.stage)<STAGES.indexOf(iv.type)) c.stage = iv.type;
+  logContact(c, (reschedule?'Interview rescheduled: ':'Interview scheduled: ')+iv.type+', '+fmtWhen(iv,'en')+' ('+iv.format+'). Interviewers: '+people.join(', ')+'.');
+  refreshAll(); refreshProfileIfOpen(c.id);
+  toast(iv.type+' scheduled for '+c.name);
+  showInterviewDone(c.id, conflict);
+}
+function cancelInterview(id){
+  const c = candById(id); const iv = getInterview(c);
+  c.interview = null; c.interviewDate = null;
+  logContact(c, 'Interview cancelled'+(iv?': '+iv.type+', '+fmtWhen(iv,'en'):'')+'.');
+  closeModal('commOverlay'); refreshAll(); refreshProfileIfOpen(id); toast('Interview cancelled');
+}
+function showInterviewDone(id, conflict){
+  const c = candById(id); const iv = getInterview(c); if(!iv) return; commCandId = id;
+  const gmailFirst = mailProvider==='gmail';
+  const outlookBtn = '<a class="btn '+(gmailFirst?'btn-secondary':'btn-primary')+'" href="'+escAttr(outlookCalLink(c,iv,mailProvider==='outlookcom'))+'" target="_blank" rel="noopener">'+ICONS.calendar+' Add to Outlook Calendar</a>';
+  const googleBtn = '<a class="btn '+(gmailFirst?'btn-primary':'btn-secondary')+'" href="'+escAttr(googleCalLink(c,iv))+'" target="_blank" rel="noopener">'+ICONS.calendar+' Add to Google Calendar</a>';
+  openComm('Interview saved', `
+    <div class="std-card" style="background:#F6FEF9;border-color:#CBF1DD;"><div class="section-title" style="font-size:14px;color:#067647;">${escHtml(iv.type)} · ${escHtml(c.name)}</div>
+      <div style="font-size:13.5px;margin-top:4px;font-weight:600;">${escHtml(fmtWhen(iv,'en'))}</div>
+      <div class="cell-sub" style="margin-top:2px;">${iv.minutes} min · ${escHtml(iv.format)}${iv.where?' · '+escHtml(iv.where):''}<br>Interviewers: ${escHtml((iv.interviewers||[]).join(', '))}</div></div>
+    ${conflict ? noticeHtml('error','Heads up: '+escHtml(conflict.who)+' is also interviewing '+escHtml(conflict.c.name)+' at an overlapping time.') : ''}
+    <div class="section-title" style="font-size:13px;margin:16px 0 8px;">Put it in a calendar</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">${gmailFirst?googleBtn+outlookBtn:outlookBtn+googleBtn}<button class="btn btn-secondary" onclick="downloadIcs('${c.id}')">Calendar file (.ics)</button></div>
+    <div class="cell-sub" style="margin-top:8px;">The candidate and interviewers are added as guests, so each calendar sends them the invitation when you save the event there. For an online interview, add a Teams or Meet link in the calendar event if you did not paste one.</div>
+    <div class="section-title" style="font-size:13px;margin:16px 0 8px;">Tell the candidate</div>
+    <button class="btn btn-secondary" onclick="openEmailDialog('${c.id}','interview')">${ICONS.mail} Email the invitation</button>`,
+    '<button class="btn btn-secondary" onclick="closeModal(\'commOverlay\')">Done</button>');
+}
 
 /* ---------------- State ---------------- */
 let jobViewMode = 'card';
@@ -1457,11 +1973,11 @@ function jobById(id){ return jobs.find(j=>j.id===id); }
 function fmtDate(d){ if(!d) return '—'; const dt = new Date(d); return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
 function fmtDateTime(d){ if(!d) return '—'; const dt = new Date(d); return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + ' · ' + dt.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
 function daysBetween(a,b){ return Math.round((new Date(b)-new Date(a))/86400000); }
-const TODAY = new Date('2026-09-28T09:00:00');
+const TODAY = new Date(todayISO()+'T00:00:00');
 
 function ensureEmployment(c){
   if(!c.employment){
-    c.employment = {startDate:'2026-09-28', endDate:'', hoursPerWeek:40, homeAddress:'', npwp:'', ktp:'', salaryRate:'', timesheet:[]};
+    c.employment = {startDate:todayISO(), endDate:'', hoursPerWeek:40, homeAddress:'', npwp:'', ktp:'', salaryRate:'', timesheet:[]};
   }
   return c.employment;
 }
@@ -1478,6 +1994,11 @@ function ensureDocuments(c){
     }
   }
   return c.documents;
+}
+
+function addContractDoc(c){
+  const docs = ensureDocuments(c);
+  if(!docs.some(d=>d.type==='Contract')) docs.push({type:'Contract', name:'Employment_Contract_'+c.name.replace(/\s+/g,'_')+'.pdf', date:c.hireDate||c.outcomeDate||todayISO()});
 }
 
 function toast(msg){
@@ -1595,6 +2116,7 @@ document.addEventListener('click', e=>{ if(!e.target.closest('.searchbar')) sear
    DASHBOARD
    ========================================================================= */
 function renderDashboard(){
+  updateGreeting();
   const open = jobs.filter(j=>j.status==='Open');
   const onHold = jobs.filter(j=>j.status==='On Hold').length, closed = jobs.filter(j=>j.status==='Closed').length;
   const activeCount = candidates.filter(c=>!['Hired','Rejected'].includes(c.stage)).length;
@@ -1652,7 +2174,7 @@ function renderDashboard(){
     if(d<=3) alerts.push({tone:d<0?'red':'amber', title:j.title, sub:d<0?'Deadline passed '+(-d)+' day'+(d===-1?'':'s')+' ago, extend or close it':(d===0?'Closes today':'Closes in '+d+' day'+(d===1?'':'s')), act:"openJobDetailModal('"+j.id+"')", cta:'Manage'});
   });
   candidates.filter(c=>['Interview 1','Interview 2','Final Interview'].includes(c.stage) && !c.interviewDate).forEach(c=>
-    alerts.push({tone:'amber', title:c.name, sub:c.stage+' not scheduled yet', act:"openProfile('"+c.id+"')", cta:'Schedule'}));
+    alerts.push({tone:'amber', title:c.name, sub:c.stage+' not scheduled yet', act:"openScheduleDialog('"+c.id+"')", cta:'Schedule'}));
   candidates.filter(c=>c.stage==='Offer').forEach(c=>
     alerts.push({tone:'blue', title:c.name, sub:'Offer out for '+(jobById(c.jobId)?jobById(c.jobId).title:'—')+', awaiting reply', act:"openProfile('"+c.id+"')", cta:'Open'}));
   const waiting = candidates.filter(c=>c.stage==='Applied').length;
@@ -1688,7 +2210,7 @@ function renderDashboard(){
 
   // Recruiter workload
   const active = candidates.filter(c=>!['Hired','Rejected'].includes(c.stage));
-  const byRecruiter = {}; RECRUITERS.forEach(r=>byRecruiter[r]=0);
+  const byRecruiter = {}; recruiterNames().forEach(r=>byRecruiter[r]=0);
   active.forEach(c=>{ byRecruiter[c.recruiter] = (byRecruiter[c.recruiter]||0)+1; });
   const maxLoad = Math.max(...Object.values(byRecruiter),1);
   document.getElementById('recruiterWorkload').innerHTML = Object.entries(byRecruiter).map(([r,n])=>
@@ -1748,7 +2270,7 @@ function eduFieldOptionsHtml(selected){
 }
 
 function refreshAll(){
-  renderNav(); renderDashboard(); renderJobs(); renderCandidates(); renderTalentPool(); renderKanban(); renderHistory(); renderEmployees();
+  renderNav(); renderDashboard(); renderJobs(); renderCandidates(); renderTalentPool(); renderKanban(); renderHistory(); renderEmployees(); renderSettings();
   if(currentView==='reports') renderReports();
 }
 
@@ -1788,7 +2310,7 @@ function openJobModal(){
   const opts = a => a.map(o=>'<option>'+o+'</option>').join('');
   document.getElementById('jobFormGrid').innerHTML = `
     <div class="field span2"><label>Job Title</label><input id="jf_title"></div>
-    <div class="field"><label>Department</label><select id="jf_department">${opts(['Product','Engineering','Operations','Business Development','HR'])}</select></div>
+    <div class="field"><label>Department</label><select id="jf_department">${opts(DEPARTMENTS)}</select></div>
     <div class="field"><label>Employment Type</label><select id="jf_type">${opts(['Full-time','Part-time','Internship','Contract'])}</select></div>
     <div class="field"><label>Work arrangement</label><select id="jf_workMode">${opts(['On-site','Hybrid','Remote'])}</select></div>
     <div class="field"><label>Work location</label><select id="jf_locationCity">${locationOptionsHtml('Jakarta Pusat')}</select><div class="hint">Standard list: CVs saying “Central Jakarta” or “Jakpus” match “Jakarta Pusat” automatically</div></div>
@@ -1839,12 +2361,13 @@ function openJobDetailModal(jobId){
 
     <div class="std-card" style="background:#FCFCFD;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-        <div><div class="section-title" style="font-size:13px;">Application deadline and status</div><div class="cell-sub">Close early or extend whenever you need. Nothing closes automatically.</div></div>
+        <div><div class="section-title" style="font-size:13px;">Deadline, status and department</div><div class="cell-sub">Close early or extend whenever you need. Nothing closes automatically.</div></div>
         <span class="dl ${d.cls}" style="margin-top:0;">${d.text}</span>
       </div>
       <div class="form-grid">
         <div class="field"><label>Status</label><select id="jd_status">${['Open','On Hold','Closed'].map(s=>'<option'+(s===j.status?' selected':'')+'>'+s+'</option>').join('')}</select></div>
         <div class="field"><label>Application deadline</label><input type="date" id="jd_deadline" value="${j.deadline}"></div>
+        <div class="field span2"><label>Department</label><select id="jd_department">${DEPARTMENTS.map(d=>'<option'+(d===j.department?' selected':'')+'>'+d+'</option>').join('')}</select></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;">
         <button class="btn btn-secondary btn-sm" onclick="extendJob('${j.id}',7)">+7 days</button>
@@ -1896,6 +2419,7 @@ function saveJobSchedule(jobId){
   const d = document.getElementById('jd_deadline').value;
   if(!d){ toast('Pick a deadline date'); return; }
   j.deadline = d; j.status = document.getElementById('jd_status').value;
+  const dsel = document.getElementById('jd_department'); if(dsel) j.department = dsel.value;
   afterJobEdit(j, 'Saved: '+j.status+', deadline '+fmtDate(j.deadline));
 }
 
@@ -1962,10 +2486,12 @@ function candCardHtml(c){
   const m = computeMatch(c, job);
   const outside = !isDKI(c);
   return '<div class="card cand-card" onclick="openProfile(\''+c.id+'\')">'+
+    '<button class="card-del" title="Delete candidate" aria-label="Delete candidate" onclick="event.stopPropagation();deleteCandidate(\''+c.id+'\')">'+ICONS.trash+'</button>'+
     '<div class="cand-card-top"><div class="avatar-sm" style="width:42px;height:42px;font-size:14px;">'+initials(c.name)+'</div>'+
       '<div style="flex:1;min-width:0;"><div class="name">'+escHtml(c.name)+'</div><div class="pos">'+escHtml(job?job.title:'—')+'</div>'+
         '<span class="status-pill '+stagePillClass(c.stage)+' stage-pill">'+c.stage+'</span>'+(outside?'<span class="badge-outside">Outside Jakarta</span>':'')+'</div></div>'+
     '<div class="cand-card-meta"><span>'+(c.eduLevel||'—')+' · '+c.experienceYears+' yrs · '+escHtml(c.location)+'</span><span class="match-num" style="color:var(--red-dark);">'+m.score+'%</span></div>'+
+    '<div class="quick-actions">'+quickBtns(c)+'</div>'+
   '</div>';
 }
 
@@ -2033,7 +2559,7 @@ function renderKanban(){
         return '<div class="kcard" draggable="true" ondragstart="onDragStart(event,\''+c.id+'\')" onclick="openProfile(\''+c.id+'\')">'+
           '<div class="name">'+c.name+'</div><div class="pos">'+(job?job.title:'')+'</div>'+
           '<div class="match-wrap"><div class="match-track"><div class="match-fill" style="width:'+m.score+'%"></div></div><div class="match-num">'+m.score+'%</div></div>'+
-          '<div class="kcard-foot"><span class="meta">'+ICONS.calendar+' '+(c.interviewDate?fmtDateTime(c.interviewDate):'Not scheduled')+'</span></div>'+
+          '<div class="kcard-foot"><span class="meta">'+ICONS.calendar+' '+(c.interviewDate?fmtDateTime(c.interviewDate):'Not scheduled')+'</span><span class="qa-mini">'+quickIcons(c)+'</span></div>'+
           '<select class="kcard-move" onclick="event.stopPropagation()" onchange="boardMove(\''+c.id+'\',this.value)"><option value="">Move to…</option>'+STAGES.filter(s=>s!==c.stage).map(s=>'<option>'+s+'</option>').join('')+'</select>'+
         '</div>';
       }).join('') + '</div>'+
@@ -2053,8 +2579,8 @@ function boardMove(id, stage){
   const c = candidates.find(c=>c.id===id);
   if(!c || c.stage===stage) return;
   c.stage = stage;
-  if(stage==='Hired'){ c.hireDate='2026-09-28'; c.outcomeDate='2026-09-28'; ensureEmployment(c); c.documents=null; ensureDocuments(c); }
-  if(stage==='Rejected'){ c.outcomeDate='2026-09-28'; }
+  if(stage==='Hired'){ c.hireDate=todayISO(); c.outcomeDate=todayISO(); ensureEmployment(c); ensureDocuments(c); addContractDoc(c); }
+  if(stage==='Rejected'){ c.outcomeDate=todayISO(); }
   toast(c.name+' moved to '+stage); renderKanban(); renderDashboard(); renderNav();
 }
 
@@ -2079,7 +2605,7 @@ function renderHistory(){
         '<td>'+(job?job.title:'—')+'</td><td>'+fmtDate(c.appliedDate)+'</td>'+
         '<td><span class="status-pill dot '+(c.stage==='Hired'?'status-hired':'status-rejected')+'">'+c.stage+'</span></td>'+
         '<td>'+fmtDate(c.outcomeDate)+'</td><td>'+c.recruiter+'</td>'+
-        '<td><div class="actions-row"><button class="icon-action" onclick="openProfile(\''+c.id+'\')" data-tt title="View">'+ICONS.view+'</button>'+
+        '<td><div class="actions-row"><button class="icon-action" onclick="openProfile(\''+c.id+'\')" data-tt title="View">'+ICONS.view+'</button><button class="icon-action" onclick="deleteCandidate(\''+c.id+'\')" data-tt title="Delete candidate">'+ICONS.trash+'</button>'+
           (c.stage==='Rejected' ? (c.inTalentPool
             ? '<button class="btn btn-secondary btn-sm" disabled>'+ICONS.hire+' Added ✓</button>'
             : '<button class="btn btn-soft btn-sm" onclick="considerFuture(\''+c.id+'\')">Consider for Future Roles</button>')
@@ -2191,7 +2717,7 @@ function addEmployeeDoc(id){
   const c = candidates.find(c=>c.id===id);
   const type = document.getElementById('newDocType').value;
   const name = document.getElementById('newDocName').value.trim() || (type+'_'+c.name.replace(/\s+/g,'_')+'.pdf');
-  ensureDocuments(c).push({type, name, date:'2026-09-28'});
+  ensureDocuments(c).push({type, name, date:todayISO()});
   document.getElementById('empDocsList').innerHTML = c.documents.map((d,i)=>employeeDocRow(d,i)).join('');
   document.getElementById('newDocName').value='';
   toast('Document added');
@@ -2227,27 +2753,59 @@ function saveEmployeeRecord(){
 }
 
 /* Document viewer (CV / KTP / Certificates / Contract) */
+/* Document viewer: the real CV is shown from the stored file; sample records show a placeholder */
 function docPreviewHtml(c, d){
   return '<div style="background:#F2F3F6;border-radius:12px;padding:26px;min-height:280px;">'+
     '<div style="background:#fff;border-radius:8px;padding:24px;box-shadow:0 2px 8px rgba(16,24,40,.08);max-width:380px;margin:0 auto;">'+
-      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;"><div class="avatar-sm" style="background:var(--red-soft);color:var(--red-dark);">'+ICONS.doc+'</div><div><div style="font-weight:800;font-size:13.5px;">'+d.type+'</div><div class="cell-sub">'+d.name+'</div></div></div>'+
-      '<div style="font-weight:800;font-size:15px;margin-bottom:4px;">'+c.name+'</div>'+
-      '<div class="cell-sub" style="margin-bottom:16px;">On file since '+fmtDate(d.date)+'</div>'+
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;"><div class="avatar-sm" style="background:var(--red-soft);color:var(--red-dark);">'+ICONS.doc+'</div><div><div style="font-weight:800;font-size:13.5px;">'+escHtml(d.type)+'</div><div class="cell-sub">'+escHtml(d.name)+'</div></div></div>'+
+      '<div style="font-weight:800;font-size:15px;margin-bottom:4px;">'+escHtml(c.name)+'</div>'+
+      '<div class="cell-sub" style="margin-bottom:16px;">Sample record: no file was uploaded for this document</div>'+
       Array.from({length:6}).map((_,i)=>'<div style="height:8px;border-radius:4px;background:#EEF0F3;margin-bottom:9px;width:'+(90-i*8)+'%;"></div>').join('')+
     '</div>'+
   '</div>';
 }
+async function renderRealCv(el, c){
+  const f = c.cvFile;
+  if(f.type==='pdf' && libReady('pdfjsLib')){
+    try{
+      el.innerHTML = '<div class="cell-sub" style="padding:20px;text-align:center;">Loading CV…</div>';
+      const pdf = await pdfjsLib.getDocument({data:new Uint8Array(f.buf.slice(0)), isEvalSupported:false}).promise;
+      el.innerHTML = '';
+      const width = Math.min(820, el.clientWidth || 640);
+      for(let p=1; p<=Math.min(pdf.numPages,10); p++){
+        const page = await pdf.getPage(p);
+        const v1 = page.getViewport({scale:1});
+        const scale = (width / v1.width) * (window.devicePixelRatio||1);
+        const vp = page.getViewport({scale});
+        const cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height;
+        cv.style.cssText = 'width:100%;height:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;background:#fff;display:block;';
+        el.appendChild(cv);
+        await page.render({canvasContext:cv.getContext('2d'), viewport:vp}).promise;
+      }
+      return;
+    }catch(e){}
+  }
+  el.innerHTML = '<pre style="white-space:pre-wrap;font-size:12.5px;background:var(--bg);padding:14px;border-radius:10px;margin:0;">'+escHtml(f.text||'')+'</pre>';
+}
 function viewDocument(candId, docIdx){
   const c = candidates.find(c=>c.id===candId);
-  const d = c.documents[docIdx];
+  const d = ensureDocuments(c)[docIdx];
+  const real = !!(d.real && c.cvFile);
   document.getElementById('docViewTitle').textContent = d.name;
-  document.getElementById('docViewBody').innerHTML = docPreviewHtml(c, d);
+  document.querySelector('#docViewOverlay .modal').classList.toggle('wide', real);
+  document.getElementById('docViewBody').innerHTML = real ? '<div id="docRealView"></div>' : docPreviewHtml(c, d);
   document.getElementById('docDownloadBtn').onclick = ()=>downloadDocument(candId, docIdx);
   document.getElementById('docViewOverlay').classList.add('show');
+  if(real) renderRealCv(document.getElementById('docRealView'), c);
 }
-function downloadDocument(candId, docIdx){
+async function downloadDocument(candId, docIdx){
   const c = candidates.find(c=>c.id===candId);
-  const d = c.documents[docIdx];
+  const d = ensureDocuments(c)[docIdx];
+  if(d.real && c.cvFile){
+    const ok = await saveFile(d.name, c.cvFile.buf.slice(0), 'application/octet-stream');
+    if(ok) toast('Saved '+d.name);
+    return;
+  }
   try{
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
@@ -2256,10 +2814,9 @@ function downloadDocument(candId, docIdx){
     pdf.text('Document: '+d.name, 20, 34);
     pdf.text('On file since: '+fmtDate(d.date), 20, 41);
     pdf.text('TALANTA · PT Antara Elektronik Transaksi Pratama', 20, 48);
-    pdf.setDrawColor(229,231,235);
-    for(let i=0;i<8;i++){ pdf.line(20, 62+i*8, 190, 62+i*8); }
-    pdf.save(d.name.replace(/\.(pdf|jpg|png|docx)$/i,'')+'.pdf');
-    toast('Downloading '+d.name);
+    pdf.text('Sample record: placeholder document', 20, 55);
+    const ok = await saveFile(d.name.replace(/\.(pdf|jpg|png|docx)$/i,'')+'.pdf', pdf.output('arraybuffer'), 'application/pdf');
+    if(ok) toast('Saved '+d.name);
   }catch(err){ toast('Download unavailable in this preview'); }
 }
 
@@ -2312,9 +2869,9 @@ function renderReports(){
   ) : '<p class="cell-sub">No candidates for this position.</p>';
 
   const depts = [...new Set(jobs.map(j=>j.department))];
-  const ttData = depts.map(d=>({d, days: (d==='Engineering'?24:d==='Product'?21:d==='Operations'?30:16)}));
+  const ttData = depts.map(d=>{ const ds = candidates.filter(c=>c.stage==='Hired' && c.hireDate && jobById(c.jobId) && jobById(c.jobId).department===d).map(c=>daysBetween(c.appliedDate,c.hireDate)); return {d, days: ds.length ? Math.round(ds.reduce((a,b)=>a+b,0)/ds.length) : null, n: ds.length}; });
   document.getElementById('ttHireBars').innerHTML = ttData.map(t=>
-    '<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="font-weight:700;">'+t.d+'</span><span style="color:var(--text-sec);">'+t.days+' days</span></div><div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:'+Math.min(100,t.days*2.2)+'%"></div></div></div>'
+    '<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span style="font-weight:700;">'+t.d+'</span><span style="color:var(--text-sec);">'+(t.days===null?'No hires yet':t.days+' days · '+t.n+' hire'+(t.n===1?'':'s'))+'</span></div><div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:'+(t.days===null?0:Math.min(100,t.days*1.5))+'%"></div></div></div>'
   ).join('');
 
   // Source of Hire — computed dynamically from each candidate's own `source` field
@@ -2330,13 +2887,6 @@ function renderReports(){
 }
 
 /* ---------------- Exports ---------------- */
-function downloadBlob(filename, content, mime){
-  const blob = new Blob([content], {type:mime});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename; document.body.appendChild(a); a.click();
-  document.body.removeChild(a); URL.revokeObjectURL(url);
-}
 function exportReportsCsv(){
   const hiresJobFilter = document.getElementById('hiresJobFilter').value;
   const donutJobFilter = document.getElementById('donutJobFilter').value;
@@ -2350,8 +2900,7 @@ function exportReportsCsv(){
   const hired = candidates.filter(c=>c.stage==='Hired');
   const sc = {}; hired.forEach(c=>{ const s=c.source||'Other'; sc[s]=(sc[s]||0)+1; });
   Object.entries(sc).forEach(([s,v])=>{ csv += s+','+v+'\n'; });
-  downloadBlob('antara-talent-reports.csv', csv, 'text/csv');
-  toast('Reports exported as CSV');
+  saveFile('talanta-reports.csv', csv, 'text/csv').then(ok=>{ if(ok) toast('Reports exported as CSV'); });
 }
 function exportReportsPdf(){
   try{
@@ -2359,7 +2908,7 @@ function exportReportsPdf(){
     const pdf = new jsPDF();
     let y = 20;
     pdf.setFontSize(16); pdf.text('TALANTA — Hiring Reports', 20, y); y+=6;
-    pdf.setFontSize(9); pdf.setTextColor(102,112,133); pdf.text('PT Antara Elektronik Transaksi Pratama · Generated '+fmtDate('2026-09-28'), 20, y); y+=12;
+    pdf.setFontSize(9); pdf.setTextColor(102,112,133); pdf.text('PT Antara Elektronik Transaksi Pratama · Generated '+fmtDate(todayISO()), 20, y); y+=12;
     pdf.setTextColor(23,23,23);
 
     const hiresJobFilter = document.getElementById('hiresJobFilter').value;
@@ -2383,21 +2932,15 @@ function exportReportsPdf(){
     const sc = {}; hired.forEach(c=>{ const s=c.source||'Other'; sc[s]=(sc[s]||0)+1; });
     Object.entries(sc).forEach(([s,v])=>{ pdf.text(s+':  '+v+' hire(s)', 24, y); y+=6; });
 
-    pdf.save('antara-talent-reports.pdf');
-    toast('Reports exported as PDF');
+    saveFile('talanta-reports.pdf', pdf.output('arraybuffer'), 'application/pdf').then(ok=>{ if(ok) toast('Reports exported as PDF'); });
   }catch(err){ toast('PDF export unavailable in this preview'); }
-}
-
-function renderSettings(){
-  document.getElementById('teamTable').innerHTML =
-    '<thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Department</th></tr></thead><tbody>'+
-    TEAM.map(t=>'<tr><td class="cell-main">'+t.name+'</td><td>'+t.role+'</td><td>'+t.email+'</td><td>'+t.dept+'</td></tr>').join('')+'</tbody>';
 }
 
 /* =========================================================================
    CANDIDATE PROFILE
    ========================================================================= */
 function openProfile(id){
+  currentProfileId = id;
   const c = candidates.find(c=>c.id===id);
   const job = jobById(c.jobId);
   const m = computeMatch(c, job);
@@ -2429,10 +2972,10 @@ function openProfile(id){
       </div>
     </div>
     <div class="profile-actions" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-      <a class="btn btn-secondary btn-sm" href="mailto:${c.email}">${ICONS.mail} Email</a>
+      <button class="btn btn-secondary btn-sm" onclick="openEmailDialog('${c.id}')">${ICONS.mail} Email</button>
       <a class="btn btn-whatsapp btn-sm" href="https://wa.me/${waNumber}" target="_blank" rel="noopener">${ICONS.wa} WhatsApp Candidate</a>
-      <a class="btn btn-secondary btn-sm" href="tel:${c.phone.replace(/\s+/g,'')}">${ICONS.phone} Call</a>
-      <button class="btn btn-soft btn-sm" onclick="openScheduleFromProfile('${c.id}')">${ICONS.calendar} Schedule Interview</button>
+      <button class="btn btn-secondary btn-sm" onclick="openCallDialog('${c.id}')">${ICONS.phone} Call</button>
+      <button class="btn btn-soft btn-sm" onclick="openScheduleDialog('${c.id}')">${ICONS.calendar} Schedule Interview</button>
       <select class="filter-select btn-sm" style="padding:9px 10px;" onchange="moveCandidateStage('${c.id}', this.value)">
         <option value="">Move stage…</option>
         ${STAGES.map(s=>'<option value="'+s+'" '+(s===c.stage?'selected':'')+'>'+s+'</option>').join('')}
@@ -2441,6 +2984,7 @@ function openProfile(id){
         <option value="">Reassign vacancy…</option>
         ${reassignOptions(c)}
       </select>
+      <button class="btn btn-danger-soft btn-sm" onclick="deleteCandidate('${c.id}')">${ICONS.trash} Delete</button>
     </div>
 
     <div class="tabs" id="profileTabs">
@@ -2451,7 +2995,7 @@ function openProfile(id){
       <div class="form-grid" style="margin-bottom:18px;">
         <div><div class="cell-sub">Email</div><div class="cell-main">${c.email}</div></div>
         <div><div class="cell-sub">Phone</div><div class="cell-main">${c.phone}</div></div>
-        <div><div class="cell-sub">Recruiter</div><div class="cell-main">${c.recruiter}</div></div>
+        <div class="field"><label>Assigned recruiter</label><select onchange="assignRecruiter('${c.id}', this.value)">${recruiterOptions(c)}</select></div>
         <div><div class="cell-sub">Position Applied</div><div class="cell-main">${job?job.title:'—'}</div></div>
       </div>
       ${standardCardHtml(c)}
@@ -2492,6 +3036,7 @@ function openProfile(id){
     </div>
 
     <div class="tab-panel" data-tab="4">
+      ${interviewSummaryHtml(c)}
       <div class="timeline">
         ${historyForCandidate.map(h=>'<div class="timeline-item"><div class="d">'+fmtDateTime(h.date)+'</div><div class="t">'+h.stage+'</div></div>').join('')}
       </div>
@@ -2604,9 +3149,9 @@ function reassignCandidate(id, jobId){
   if(!to || c.jobId===jobId) return;
   const before = computeMatch(c, from).score, after = computeMatch(c, to).score;
   c.reallocations = c.reallocations || [];
-  c.reallocations.push({date:todayISO(), from:c.jobId, to:jobId, by:'Kelly Wijaya', before, after});
+  c.reallocations.push({date:todayISO(), from:c.jobId, to:jobId, by:currentUser().name, before, after});
   c.notes = c.notes || [];
-  c.notes.unshift({by:'Kelly Wijaya', date:todayISO(), text:'Reassigned from '+(from?from.title:'—')+' to '+to.title+' (match '+before+'% to '+after+'%). Stage kept at '+c.stage+'.'});
+  c.notes.unshift({by:currentUser().name, date:todayISO(), text:'Reassigned from '+(from?from.title:'—')+' to '+to.title+' (match '+before+'% to '+after+'%). Stage kept at '+c.stage+'.'});
   c.jobId = jobId;
   toast(c.name+' reassigned to '+to.title+' ('+after+'% match)');
   refreshAll(); openProfile(id);
@@ -2642,8 +3187,8 @@ function moveCandidateStage(id, stage){
   if(!stage) return;
   const c = candidates.find(c=>c.id===id);
   c.stage = stage;
-  if(stage==='Hired'){ c.hireDate='2026-09-28'; c.outcomeDate='2026-09-28'; ensureEmployment(c); c.documents=null; ensureDocuments(c); }
-  if(stage==='Rejected'){ c.outcomeDate='2026-09-28'; }
+  if(stage==='Hired'){ c.hireDate=todayISO(); c.outcomeDate=todayISO(); ensureEmployment(c); ensureDocuments(c); addContractDoc(c); }
+  if(stage==='Rejected'){ c.outcomeDate=todayISO(); }
   toast(c.name+' moved to '+stage);
   renderDashboard(); renderNav();
   openProfile(id);
@@ -2654,96 +3199,354 @@ function addNote(id){
   if(!text) return;
   const c = candidates.find(c=>c.id===id);
   c.notes = c.notes || [];
-  c.notes.unshift({by:'Kelly Wijaya', date:'2026-09-28', text});
+  c.notes.unshift({by:currentUser().name, date:todayISO(), text});
   // Update just the notes list in place — no full profile re-render, no tab reset
   document.getElementById('profileNotesList').innerHTML = c.notes.map(n=>'<div class="note"><div class="meta">'+n.by+' · '+fmtDate(n.date)+'</div><div class="txt">'+n.text+'</div></div>').join('');
   input.value = '';
   toast('Note added');
 }
-function openScheduleFromProfile(id){
-  const c = candidates.find(c=>c.id===id);
-  c.interviewDate = '2026-10-05T10:00';
-  toast('Interview scheduled for '+c.name);
-  renderDashboard();
-  openProfile(id);
-}
+function openScheduleFromProfile(id){ openScheduleDialog(id); }
 
 /* =========================================================================
    CV UPLOAD MODAL
    ========================================================================= */
-const SAMPLE_PARSED_CVS = [
-  {name:'Andika Pratama', email:'andika.pratama@mail.com', phone:'+62 812-9988-1122', location:'Jakarta Selatan',
-    education:'S1 Teknik Informatika, Universitas Indonesia', skills:['Java','Spring Boot','Analisis Data','Git','Docker'], experienceYears:3,
-    experience:[{company:'PT Solusi Digital', role:'Software Engineer', period:'2023–2026'}], certifications:[], previousCompanies:['PT Solusi Digital']},
-  {name:'Larasati Dewi', email:'larasati.dewi@mail.com', phone:'+62 815-2233-4455', location:'Jakpus',
-    education:'Sarjana Manajemen, Universitas Indonesia', skills:['Strategi Produk','Agile','Analisis Data','SQL'], experienceYears:4,
-    experience:[{company:'PT Fintech Merdeka', role:'Associate Product Manager', period:'2022–2026'}], certifications:['CSPO'], previousCompanies:['PT Fintech Merdeka']},
-  {name:'Michael Santoso', email:'michael.santoso@mail.com', phone:'+62 811-7766-5544', location:'Central Jakarta',
-    education:"Bachelor's in Business Administration, Binus University", skills:['Stakeholder Management','Data Analysis','Product Roadmap','Agile'], experienceYears:5,
-    experience:[{company:'PT Bank Digital Indonesia', role:'Product Owner', period:'2021–2026'}], certifications:[], previousCompanies:['PT Bank Digital Indonesia']},
-  {name:'Sekar Ayu', email:'sekar.ayu@mail.com', phone:'+62 857-3344-8899', location:'Kota Bandung, Jawa Barat',
-    education:'S1 Desain Komunikasi Visual, Institut Teknologi Bandung', skills:['Figma','Desain UI','Riset Pengguna','Prototipe','Sistem Desain'], experienceYears:3,
-    experience:[{company:'PT Kreasi Nusantara', role:'Product Designer', period:'2023–2026'}], certifications:[], previousCompanies:['PT Kreasi Nusantara']},
-];
-
-let cvFileText = '';
-let cvUploadedFileName = null;
+/* =========================================================================
+   CV UPLOAD: read the real file, then structure what it actually says
+   ========================================================================= */
+const CV_MAX_BYTES = 10*1024*1024;
+let cvFile = null;           // {name,size,type,buf,text,hash} for the file currently in the upload dialog
+let cvFileError = '';
 let parsedCvData = null;
 const dz = document.getElementById('dropzone');
 
+function libReady(name){ return typeof window[name] !== 'undefined'; }
+function cleanText(t){
+  return String(t||'').replace(/[\u00a0\u2007\u202f]/g,' ').replace(/[\u200b-\u200d\ufeff]/g,'').replace(/\r/g,'')
+    .split('\n').map(l=>l.replace(/[ \t]{2,}/g,' ').trim()).join('\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+async function sha256Hex(buf){
+  try{
+    if(window.crypto && crypto.subtle){
+      const h = await crypto.subtle.digest('SHA-256', buf.slice(0));
+      return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+  }catch(e){}
+  let h = 2166136261; const u = new Uint8Array(buf);
+  for(let i=0;i<u.length;i++){ h ^= u[i]; h = Math.imul(h,16777619)>>>0; }
+  return 'fnv'+h.toString(16)+'-'+u.length;
+}
+
+/* ---------- readers (text comes from the file itself) ---------- */
+async function pdfToText(buf){
+  if(!libReady('pdfjsLib')) throw new Error('The PDF reader could not load. Check your connection, or paste the CV text instead.');
+  try{ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }catch(e){}
+  const pdf = await pdfjsLib.getDocument({data:new Uint8Array(buf), isEvalSupported:false}).promise;
+  const lines = [];
+  const dateStart = /^\W*(?:(?:jan|feb|mar|apr|mei|may|jun|jul|agu|aug|sep|okt|oct|nov|des|dec)[a-z]*\.?\s*)?(?:19|20)\d{2}/i;
+  for(let p=1; p<=Math.min(pdf.numPages,10); p++){
+    const page = await pdf.getPage(p);
+    const tc = await page.getTextContent();
+    const items = tc.items.filter(it=>it.str!==undefined && it.str.trim()!=='').map(it=>({s:it.str, x:it.transform[4], y:it.transform[5], w:it.width||0}));
+    const rows = [];
+    items.sort((a,b)=>b.y-a.y || a.x-b.x).forEach(it=>{
+      const r = rows.find(r=>Math.abs(r.y-it.y)<=2.5);
+      if(r) r.items.push(it); else rows.push({y:it.y, items:[it]});
+    });
+    rows.sort((a,b)=>b.y-a.y).forEach(r=>{
+      r.items.sort((a,b)=>a.x-b.x);
+      const segs = []; let cur = '', prev = null;
+      r.items.forEach(it=>{
+        if(prev){
+          const gap = it.x-(prev.x+prev.w);
+          if(gap>40){ if(cur.trim()) segs.push(cur.trim()); cur = ''; }
+          else if(gap>1 && !/\s$/.test(cur) && !/^\s/.test(it.s)) cur += ' ';
+        }
+        cur += it.s; prev = it;
+      });
+      if(cur.trim()) segs.push(cur.trim());
+      let line = segs[0]||'';
+      for(let k=1;k<segs.length;k++){
+        if(dateStart.test(segs[k])) line += ' | '+segs[k];    // right-aligned dates stay with their job line
+        else { lines.push(line); line = segs[k]; }            // other wide gaps are separate columns
+      }
+      if(line) lines.push(line);
+    });
+    lines.push('');
+  }
+  return lines.join('\n');
+}
+async function docxToText(buf){
+  if(!libReady('JSZip')) throw new Error('The Word reader could not load. Check your connection, or paste the CV text instead.');
+  const zip = await JSZip.loadAsync(buf);
+  const f = zip.file('word/document.xml');
+  if(!f) throw new Error('This does not look like a valid .docx file.');
+  const xml = new DOMParser().parseFromString(await f.async('string'), 'application/xml');
+  const runText = r=>{ let s=''; [...r.childNodes].forEach(n=>{ if(n.nodeName==='w:t') s+=n.textContent; else if(n.nodeName==='w:tab') s+='\t'; else if(n.nodeName==='w:br') s+='\n'; }); return s; };
+  const paraText = p=>{ let s=''; const walk = node=>[...node.childNodes].forEach(n=>{
+      if(n.nodeName==='w:r') s+=runText(n);
+      else if(['w:hyperlink','w:smartTag','w:sdt','w:sdtContent','w:ins'].includes(n.nodeName)) walk(n);
+    }); walk(p); return s; };
+  const out = [];
+  [...xml.getElementsByTagName('w:p')].forEach(p=>{ const t = paraText(p).replace(/\t+/g,'   '); out.push(t); });
+  return out.join('\n');
+}
+
+/* ---------- rule-based structuring ---------- */
+const MONTHS_RE = '(?:jan(?:uari|uary)?|feb(?:ruari|ruary)?|mar(?:et|ch)?|apr(?:il)?|mei|may|jun(?:i|e)?|jul(?:i|y)?|agu(?:stus)?|aug(?:ust)?|sep(?:t(?:ember)?)?|okt(?:ober)?|oct(?:ober)?|nov(?:ember)?|des(?:ember)?|dec(?:ember)?)';
+const DATE_RE = '(?:(?:'+MONTHS_RE+')\\.?\\s*,?\\s*)?(?:19|20)\\d{2}|\\d{1,2}[/.-](?:19|20)\\d{2}';
+const PRESENT_RE = '(?:sekarang|saat ini|sampai sekarang|hingga saat ini|present|current|now|kini)';
+const RANGE_RE = new RegExp('('+DATE_RE+')\\s*(?:-|–|—|to|sampai|s/d|hingga|until)\\s*('+DATE_RE+'|'+PRESENT_RE+')','i');
+const MONTH_IDX = {jan:0,feb:1,mar:2,apr:3,mei:4,may:4,jun:5,jul:6,agu:7,aug:7,sep:8,okt:9,oct:9,nov:10,des:11,dec:11};
+function periodYears(period){
+  const m = RANGE_RE.exec(period||''); if(!m) return 0;
+  const val = s=>{
+    s = s.trim();
+    if(new RegExp('^'+PRESENT_RE+'$','i').test(s)){ const d=new Date(); return d.getFullYear()+d.getMonth()/12; }
+    const y = /(?:19|20)\d{2}/.exec(s); if(!y) return null;
+    let mo = 0; const mm = new RegExp(MONTHS_RE,'i').exec(s);
+    if(mm) mo = MONTH_IDX[mm[0].slice(0,3).toLowerCase()]||0;
+    else { const nm = /(\d{1,2})[/.-](?:19|20)\d{2}/.exec(s); if(nm) mo = Math.min(11,Math.max(0,+nm[1]-1)); }
+    return +y[0] + mo/12;
+  };
+  const a = val(m[1]), b = val(m[2]);
+  return (a===null||b===null) ? 0 : Math.max(0, b-a);
+}
+const HEADINGS = {
+  experience:['pengalaman kerja','pengalaman','pengalaman profesional','pengalaman kerja profesional','riwayat pekerjaan','riwayat kerja','work experience','professional experience','employment history','employment','experience','work history','career history','pengalaman magang','internship experience'],
+  education:['pendidikan','riwayat pendidikan','pendidikan formal','pendidikan dan pelatihan','education','educational background','academic background','education & training','education and training'],
+  skills:['keahlian','keterampilan','kemampuan','kompetensi','skills','skill','technical skills','key skills','core competencies','keahlian teknis','hard skills','soft skills','skills & tools','skills and tools'],
+  certs:['sertifikasi','sertifikat','sertifikasi dan pelatihan','pelatihan','pelatihan dan sertifikasi','pelatihan & sertifikasi','certifications','certification','certificates','licenses & certifications','licenses and certifications','training','training & certifications','courses','kursus'],
+  other:['profil','profile','ringkasan','summary','professional summary','tentang saya','about me','objective','tujuan karir','referensi','references','bahasa','languages','proyek','projects','organisasi','pengalaman organisasi','organization','organizations','volunteer','penghargaan','awards','achievements','prestasi','minat','interests','hobi','data pribadi','personal data','personal information','personal details','kontak','contact','informasi pribadi','portfolio','publikasi','publications'],
+};
+function headingOf(line){
+  const m = /^([A-Za-z][A-Za-z &/]{2,38}?)\s*[:：]\s*(.*)$/.exec(line);
+  const label = (m ? m[1] : line).replace(/[:：\-–—•·*_#|]+/g,' ').replace(/\s+/g,' ').trim().toLowerCase();
+  if(!label || label.length>40) return null;
+  for(const [key, list] of Object.entries(HEADINGS)){ if(list.includes(label)) return {key, rest: m ? m[2].trim() : ''}; }
+  return null;
+}
+function splitSections(lines){
+  const sec = {header:[], experience:[], education:[], skills:[], certs:[], other:[]};
+  let cur = 'header';
+  lines.forEach(line=>{ const h = headingOf(line); if(h){ cur = h.key; if(h.rest) sec[cur].push(h.rest); return; } sec[cur].push(line); });
+  return sec;
+}
+const isBulletLine = l=>/^[•·▪◦*>\-–—]\s+/.test(l) || /^\d+[.)]\s/.test(l);
+const trimJunk = s=>String(s).replace(/^[•·▪◦*>\s]+/,'').replace(/[|,;–—-]+\s*$/,'').replace(/^\s*[|,;–—-]+/,'').trim();
+const looksCompany = s=>/^(pt|cv|ud|pd|bank|yayasan)\b|\b(tbk|inc\.?|ltd\.?|llc|corp\.?|corporation|company|co\.|group|bank|university|universitas|institut|startup|studio|consulting|konsultan|agency|firm|kantor)\b/i.test(s);
+const looksRole = s=>/\b(engineer|developer|manager|officer|analyst|designer|staff|staf|associate|intern|magang|lead|head|specialist|consultant|administrator|executive|coordinator|akuntan|accountant|asisten|assistant|supervisor|director|direktur|kepala|programmer|devops|architect|lawyer|paralegal|auditor|researcher|sekretaris|secretary|teller|advisor|penasihat)\b/i.test(s);
+const looksSentence = s=>s.split(/\s+/).length>8 || /[.!?]$/.test(s);
+function isLocationOnly(s){ const h = findLocation(s); return !!h && !looksCompany(s) && !looksRole(s) && s.trim().length <= h.word.length+14; }
+
+function parseExperience(lines){
+  const entries = []; const used = new Set();
+  const neighbour = idx=>{ const l = lines[idx]; return (l && !used.has(idx) && !isBulletLine(l) && !RANGE_RE.test(l) && l.length<=80 && !looksSentence(trimJunk(l))) ? trimJunk(l) : ''; };
+  for(let i=0;i<lines.length;i++){
+    const line = lines[i];
+    if(isBulletLine(line) || used.has(i)) continue;
+    const m = RANGE_RE.exec(line); if(!m) continue;
+    const period = m[0].trim();
+    const rest = trimJunk(line.replace(m[0],' ').replace(/[()\[\]]/g,' ').replace(/\s{2,}/g,' '));
+    let cands = rest.split(/\s*(?:\||—|–|\bat\b|\bdi\b|@|,\s(?=[A-Z])|\s-\s)\s*/i).map(trimJunk).filter(x=>x && x.length>1 && x.length<=80).filter(x=>!isLocationOnly(x));
+    if(cands.length===0){
+      [i-1,i-2].forEach(idx=>{ const t = neighbour(idx); if(t){ cands.unshift(t); used.add(idx); } });
+      cands = cands.slice(-2);
+    } else if(cands.length===1){
+      const base = cands[0]; const needCompany = !looksCompany(base);
+      const opts = [i+1,i-1].map(idx=>({idx, t:neighbour(idx)})).filter(o=>o.t && !isLocationOnly(o.t));
+      const pick = opts.find(o=> needCompany ? looksCompany(o.t) : (looksRole(o.t) && !looksCompany(o.t))) || opts.find(o=>!(needCompany ? looksRole(base)===false : false) );
+      if(pick){ cands = pick.idx>i ? [base, pick.t] : [pick.t, base]; used.add(pick.idx); }
+    }
+    let role = cands.find(x=>looksRole(x) && !looksCompany(x)) || '';
+    let company = cands.find(x=>looksCompany(x) && x!==role) || '';
+    const left = cands.filter(x=>x!==role && x!==company);
+    if(!role) role = left.shift()||'';
+    if(!company) company = left.shift()||'';
+    company = company.replace(/,\s*([^,]+)$/, (m,loc)=>isLocationOnly(loc.trim()) ? '' : m).trim();
+    if(role || company) entries.push({role, company, period});
+  }
+  return entries;
+}
+function parseEducationLine(sec, lines){
+  const pool = sec.education.length ? sec.education : lines;
+  let best = '', bestRank = 0, bestIdx = -1;
+  pool.forEach((l,i)=>{ if(l.length>160) return; const r = eduRank(eduLevelFromText(l)); if(r>bestRank){ bestRank = r; best = l; bestIdx = i; } });
+  if(!best) return '';
+  const dateRange = /\s*[\(\[]?\s*(?:19|20)\d{2}\s*(?:[-–—]|to|sampai|s\/d)\s*(?:(?:19|20)\d{2}|present|sekarang)\s*[\)\]]?/i;
+  best = trimJunk(best.replace(dateRange,''));
+  const inst = /universitas|institut|politeknik|sekolah tinggi|university|institute|college|academy|akademi|stmik/i;
+  if(!inst.test(best)){
+    const nb = [pool[bestIdx+1], pool[bestIdx-1]].find(x=>x && inst.test(x) && x.length<100 && !isBulletLine(x));
+    if(nb) best += ', '+trimJunk(nb.replace(dateRange,''));
+  }
+  return best;
+}
+function parseName(lines){
+  const labelled = lines.slice(0,25).find(l=>/^(nama( lengkap)?|full name|name)\s*[:：]/i.test(l));
+  if(labelled) return labelled.replace(/^[^:：]+[:：]\s*/,'').trim().slice(0,60);
+  const BAD = /curriculum vitae|resume|riwayat hidup|daftar riwayat|^cv$|profil|profile|biodata|lamaran|^page\b/i;
+  for(const l of lines.slice(0,8)){
+    const t = l.replace(/\s*[|•].*$/,'').trim();
+    if(!t || BAD.test(t) || /@|\d/.test(t)) continue;
+    const words = t.split(/\s+/);
+    if(words.length>=2 && words.length<=5 && /^[\p{L}.'’\- ]+$/u.test(t)){
+      return t.replace(/\p{L}+/gu, w=> (w===w.toUpperCase() && w.length>1) ? w[0]+w.slice(1).toLowerCase() : w);
+    }
+  }
+  return '';
+}
+function parseLocationRaw(sec, lines){
+  const labelled = lines.slice(0,40).find(l=>/^(alamat|domisili|lokasi|location|address|kota|city|tempat tinggal)\s*[:：\-]/i.test(l));
+  if(labelled) return labelled.replace(/^[^:：\-]+[:：\-]\s*/,'').trim();
+  const head = sec.header.slice(0,14).join(' | ');
+  const hit = findLocation(head);
+  return hit ? head.substr(hit.idx, hit.word.length) : '';
+}
+function parseSkillList(sec, text){
+  const out = []; const seen = new Set();
+  const add = s=>{
+    s = String(s).replace(/^[•·▪◦*>\-–—\s]+/,'').replace(/[.;,]+$/,'').trim();
+    if(s.length<2 || s.length>40 || s.split(/\s+/).length>5) return;
+    const k = canonSkill(s).toLowerCase(); if(seen.has(k)) return; seen.add(k); out.push(s);
+  };
+  sec.skills.forEach(l=>{ let body = l; const m = /^[A-Za-z &/]{3,30}\s*[:：]\s*(.+)$/.exec(l); if(m) body = m[1]; body.split(/[,;|•·▪◦]|\s{2,}/).forEach(add); });
+  if(!out.length){   // no skills section: fall back to known skills mentioned in the CV (not in degree names)
+    const noEdu = [...sec.header, ...sec.experience, ...sec.certs, ...sec.other].join('\n');
+    skillsInText(noEdu).forEach(add);
+  }
+  return out.slice(0,30);
+}
+function parseCvText(text){
+  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  const sec = splitSections(lines);
+  const email = (text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/)||[''])[0];
+  const phone = ((text.match(/(?:\+62|\b62|\b0)[\s.-]?8\d{1,2}[\s.-]?\d{3,4}[\s.-]?\d{3,5}/)||[''])[0]).trim();
+  const expLines = sec.experience.length ? sec.experience : [...sec.header, ...sec.other];
+  const experience = parseExperience(expLines);
+  let years = experience.reduce((a,e)=>a+periodYears(e.period),0);
+  if(!years){ const ys=[]; text.replace(/(\d{1,2})\+?\s*(?:tahun|years?|yrs?)/gi,(m,n)=>{ ys.push(+n); return m; }); const ok = ys.filter(n=>n<=40); years = ok.length?Math.max(...ok):0; }
+  const companies = []; experience.forEach(e=>{ if(e.company && !companies.includes(e.company)) companies.push(e.company); });
+  const certs = []; sec.certs.forEach(l=>{ const t = trimJunk(l); if(t.length>=4 && t.length<=90 && !/^((?:19|20)\d{2}\W*)+$/.test(t) && !certs.includes(t)) certs.push(t); });
+  return {name:parseName(lines), email, phone, location:parseLocationRaw(sec, lines), education:parseEducationLine(sec, lines),
+    skills:parseSkillList(sec, text), certifications:certs.slice(0,8), experience, experienceYears:Math.min(45, Math.round(years)), previousCompanies:companies};
+}
+
+/* ---------- optional: Claude structures the text; every value is checked against the CV ---------- */
+const normTxt = s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+async function claudeStructure(text, local){
+  if(!(window.claude && window.claude.use)) return {unavailable:true};
+  let sample = null; try{ sample = await window.claude.use('sample'); }catch(e){}
+  if(!sample) return {unavailable:true};
+  let safe = text;
+  [local.email, local.phone].filter(Boolean).forEach(v=>{ safe = safe.split(v).join('[removed]'); });
+  safe = safe.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g,'[removed]').replace(/(?:\+62|\b62|\b0)[\s.-]?8[\d\s.-]{7,13}\d/g,'[removed]')
+    .replace(/\b\d{15,16}\b/g,'[removed]').replace(/\b\d{2}\.\d{3}\.\d{3}\.\d-\d{3}\.\d{3}\b/g,'[removed]').slice(0,60000);
+  const prompt = 'You read a CV for a recruiter. Extract only what the CV text says. Copy words exactly as written in the CV, in the CV\'s own language. Do not translate, correct, infer, summarise or invent anything. If something is not in the CV, use null or an empty list. Email, phone and ID numbers were removed on purpose.\n\n'+
+    'Reply with only JSON in this shape:\n{"name": string|null, "location": string|null, "education": [{"degree": string, "field": string|null, "institution": string|null}], "experience": [{"role": string, "company": string, "period": string|null}], "skills": [string], "certifications": [string]}\n\n'+
+    '"location" is the candidate\'s own city or address, not an employer\'s. "experience" lists paid jobs and internships, newest first, and "period" is the dates exactly as written. "skills" are the skills the CV lists.\n\nCV text:\n<<<\n'+safe+'\n>>>';
+  try{ return {data: await sample.json(prompt, {modelTier:'quick'})}; }
+  catch(e){ return {error: (e && e.code) || 'error'}; }
+}
+function mergeAi(local, ai, text){
+  const T = normTxt(text); const inText = v=>{ const n = normTxt(v); return n.length>1 && T.includes(n); };
+  const p = Object.assign({}, local); let dropped = 0;
+  if(ai && typeof ai==='object'){
+    if(ai.name && inText(ai.name)) p.name = String(ai.name).trim();
+    if(ai.location && inText(ai.location)) p.location = String(ai.location).trim();
+    if(Array.isArray(ai.education)){
+      let best='', rank=0;
+      ai.education.forEach(e=>{ if(!e) return; const parts=[e.degree,e.field,e.institution].filter(x=>x && inText(x)); const s=parts.join(', '); const r=eduRank(eduLevelFromText(s)); if(r>rank){ rank=r; best=s; } });
+      if(best) p.education = best;
+    }
+    if(Array.isArray(ai.experience)){
+      const ex=[]; ai.experience.forEach(e=>{ if(e && e.company && e.role && inText(e.company) && inText(e.role)) ex.push({role:String(e.role).trim(), company:String(e.company).trim(), period:(e.period && inText(e.period))?String(e.period).trim():''}); else dropped++; });
+      if(ex.length){ p.experience = ex; p.previousCompanies = [...new Set(ex.map(e=>e.company))]; const y = ex.reduce((a,e)=>a+periodYears(e.period),0); if(y) p.experienceYears = Math.min(45, Math.round(y)); }
+    }
+    if(Array.isArray(ai.skills)){
+      const sk = ai.skills.filter(s=>typeof s==='string' && inText(s)).map(s=>s.trim());
+      dropped += ai.skills.length - sk.length;
+      const seen = new Set(); p.skills = [...sk, ...local.skills].filter(s=>{ const k=canonSkill(s).toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; }).slice(0,30);
+    }
+    if(Array.isArray(ai.certifications)){ const cs = ai.certifications.filter(s=>typeof s==='string' && inText(s)).map(s=>s.trim()); if(cs.length) p.certifications = cs.slice(0,8); }
+  }
+  p._dropped = dropped;
+  return p;
+}
+async function setupAiToggle(){
+  const box = document.getElementById('cvAiToggle'); box.innerHTML = '';
+  if(!(window.claude && window.claude.use)) return;
+  try{
+    const s = await window.claude.use('sample'); if(!s) return;
+    box.innerHTML = '<label class="chip-check" style="width:100%;align-items:flex-start;"><input type="checkbox" id="cvUseAi" checked style="margin-top:3px;"><span>Use Claude to read the CV<span style="display:block;font-weight:500;font-size:11.5px;color:#98A2B3;">Handles unusual layouts better. Email, phone and ID numbers stay on this device, and everything it returns is checked against the CV text.</span></span></label>';
+  }catch(e){}
+}
+
+/* ---------- duplicates ---------- */
+function normName(n){ return String(n||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,' ').replace(/\s+/g,' ').trim(); }
+function nameKey(n){ return normName(n).split(' ').filter(Boolean).sort().join(' '); }
+function findDuplicate({name, email, hash, fileName}){
+  const nk = name ? nameKey(name) : ''; const em = (email||'').trim().toLowerCase(); const fn = (fileName||'').trim().toLowerCase();
+  for(const c of candidates){
+    if(hash && c.cvFile && c.cvFile.hash===hash) return {c, reason:'This exact file was already uploaded for '+c.name+'.'};
+    if(fn && c.cvFile && c.cvFile.name.toLowerCase()===fn) return {c, reason:'A file named "'+fileName+'" is already stored for '+c.name+'.'};
+    if(nk && nameKey(c.name)===nk) return {c, reason:c.name+' is already in the database (same name).'};
+    if(em && c.email && c.email.trim().toLowerCase()===em) return {c, reason:'The email '+email+' already belongs to '+c.name+'.'};
+  }
+  return null;
+}
+function noticeHtml(kind, html){
+  const s = kind==='error' ? 'background:#FEF1F2;color:#B42318;border:1px solid #FBD5D5;' : 'background:#EAF2FE;color:#175CD3;border:1px solid #C7DDFB;';
+  return '<div style="margin-top:12px;padding:10px 12px;border-radius:10px;font-size:12.5px;font-weight:600;'+s+'">'+html+'</div>';
+}
+const openProfileLink = id=>' <a href="#" onclick="event.preventDefault();closeModal(\'cvModalOverlay\');openProfile(\''+id+'\')" style="color:inherit;text-decoration:underline;">Open profile</a>';
+
+/* ---------- upload dialog ---------- */
 function resetDropzone(){
   dz.classList.remove('dragover');
   dz.querySelector('.t').textContent = 'Drag & drop a CV here';
   dz.querySelector('.s').textContent = 'PDF, DOCX or TXT, up to 10MB, or click to browse';
 }
 function openCvModal(){
-  document.getElementById('cvStep1').style.display='block';
-  document.getElementById('cvStep2').style.display='none';
-  document.getElementById('cvPrimaryBtn').textContent = 'Extract Candidate Info';
-  document.getElementById('cvPrimaryBtn').onclick = parseCv;
+  document.getElementById('cvStep1').style.display = 'block';
+  document.getElementById('cvStep2').style.display = 'none';
+  const btn = document.getElementById('cvPrimaryBtn');
+  btn.textContent = 'Extract Candidate Info'; btn.disabled = false; btn.onclick = parseCv;
   document.getElementById('cvJobSelect').innerHTML = jobs.filter(j=>j.status!=='Closed').map(j=>'<option value="'+j.id+'">'+escHtml(j.title)+'</option>').join('');
   document.getElementById('cvPasteText').value = '';
-  cvFileText = ''; cvUploadedFileName = null; document.getElementById('cvFileInput').value = '';
-  resetDropzone();
+  document.getElementById('cvFileNotice').innerHTML = '';
+  cvFile = null; cvFileError = ''; parsedCvData = null; document.getElementById('cvFileInput').value = '';
+  resetDropzone(); setupAiToggle();
   document.getElementById('cvModalOverlay').classList.add('show');
 }
-function handleCvFile(file){
+function cvPasteChanged(){ if(document.getElementById('cvPasteText').value.trim()) document.getElementById('cvPrimaryBtn').disabled = false; }
+async function handleCvFile(file){
   if(!file) return;
-  cvUploadedFileName = file.name; cvFileText = '';
-  dz.querySelector('.t').textContent = file.name+' selected';
-  if(/\.txt$/i.test(file.name)){
-    const r = new FileReader();
-    r.onload = ()=>{ cvFileText = String(r.result||''); dz.querySelector('.s').textContent = 'Text read, ready to extract'; };
-    r.readAsText(file);
-  } else {
-    dz.querySelector('.s').textContent = 'PDF/DOCX text extraction runs on the server in the pilot. This demo uses a sample CV. Paste CV text below to try real extraction.';
-  }
+  cvFile = null; cvFileError = '';
+  const notice = document.getElementById('cvFileNotice'); notice.innerHTML = '';
+  const btn = document.getElementById('cvPrimaryBtn'); btn.disabled = false;
+  dz.querySelector('.t').textContent = file.name;
+  const fail = (msg, dupC)=>{ cvFileError = msg; notice.innerHTML = noticeHtml('error', escHtml(msg)+(dupC?openProfileLink(dupC.id):'')); dz.querySelector('.s').textContent = 'Choose a different file'; btn.disabled = true; };
+  const ext = (file.name.split('.').pop()||'').toLowerCase();
+  if(file.size>CV_MAX_BYTES) return fail('This file is larger than 10 MB.');
+  if(!['pdf','docx','txt'].includes(ext)) return fail(ext==='doc' ? 'Old .doc files cannot be read. Save it as .docx or PDF and upload it again.' : 'Upload a PDF, DOCX or TXT file.');
+  dz.querySelector('.s').textContent = 'Reading file…';
+  try{
+    const buf = await file.arrayBuffer();
+    const hash = await sha256Hex(buf);
+    const dup = findDuplicate({hash, fileName:file.name});
+    if(dup) return fail(dup.reason, dup.c);
+    const raw = ext==='pdf' ? await pdfToText(buf) : ext==='docx' ? await docxToText(buf) : new TextDecoder('utf-8').decode(buf);
+    const text = cleanText(raw);
+    if(text.length<40) return fail('No readable text found. This looks like a scanned image. Upload a text-based PDF, or paste the text below.');
+    cvFile = {name:file.name, size:file.size, type:ext, buf, text, hash};
+    dz.querySelector('.s').textContent = Math.max(1,Math.round(file.size/1024))+' KB · '+text.length.toLocaleString()+' characters read';
+  }catch(e){ fail(e && e.message ? e.message : 'Could not read this file.'); }
 }
 dz.addEventListener('click', ()=>document.getElementById('cvFileInput').click());
-document.getElementById('cvFileInput').addEventListener('change', e=>handleCvFile(e.target.files[0]));
+document.getElementById('cvFileInput').addEventListener('change', e=>{ const f = e.target.files[0]; e.target.value = ''; handleCvFile(f); });
 dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.classList.add('dragover'); });
-dz.addEventListener('dragleave', ()=> dz.classList.remove('dragover'));
+dz.addEventListener('dragleave', ()=>dz.classList.remove('dragover'));
 dz.addEventListener('drop', e=>{ e.preventDefault(); dz.classList.remove('dragover'); handleCvFile(e.dataTransfer.files[0]); });
-
-/* Rule-based extraction from pasted or .txt CV text (Indonesian or English) */
-function extractFromText(text){
-  const lines = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
-  const email = (text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/)||[''])[0];
-  const phone = ((text.match(/(?:\+62|\b62|\b0)[\s-]?8[\d\s-]{7,13}\d/)||[''])[0]).trim();
-  const nameLine = lines.find(l=>/^(nama|name)\s*[:\-]/i.test(l));
-  let name = nameLine ? nameLine.replace(/^(nama|name)\s*[:\-]\s*/i,'') : (lines[0]||'');
-  if(name.length>45 || /@|\d{4}/.test(name)) name = '';
-  const locLine = lines.find(l=>/^(alamat|domisili|lokasi|location|address|kota|city)\s*[:\-]/i.test(l));
-  const locText = locLine ? locLine.replace(/^[^:\-]+[:\-]\s*/,'') : text;
-  const locHit = findLocation(locText);
-  const location = locHit ? (locLine ? locText : locHit.word) : '';
-  let eduLine = '', best = 0;
-  lines.forEach(l=>{ if(l.length>140) return; const r = eduRank(eduLevelFromText(l)); if(r>best){ best = r; eduLine = l; } });
-  const ys = []; text.replace(/(\d{1,2})\+?\s*(?:tahun|years?|yrs?)/gi,(m,n)=>{ ys.push(+n); return m; });
-  const yrs = ys.filter(n=>n<=40);
-  const companies = []; (text.match(/\b(?:PT\.?|CV\.?)\s+[A-Z][\w&.-]*(?:\s+[A-Z][\w&.-]*){0,3}|\bBank\s+[A-Z]\w+/g)||[]).forEach(s=>{ s=s.replace(/[.,;]+$/,'').trim(); if(!companies.includes(s)) companies.push(s); });
-  return {name, email, phone, location, education:eduLine, skills:skillsInText(text), experienceYears:yrs.length?Math.max(...yrs):0, previousCompanies:companies.slice(0,4), experience:[], certifications:[]};
-}
 
 function trHeader(){ return '<div class="tr-row" style="border-bottom:1px solid var(--border);"><div></div><div class="cell-sub" style="font-weight:700;">Original (CV wording)</div><div class="cell-sub" style="font-weight:700;">Standard value (English)</div></div>'; }
 function trRow(label, raw, std){ return '<div class="tr-row"><div class="cell-sub" style="font-weight:700;">'+label+'</div><div class="tr-raw">'+escHtml(raw)+'</div><div class="tr-std">'+escHtml(std)+'</div></div>'; }
@@ -2754,62 +3557,166 @@ function cvTranslationHtml(p){
   const rows = [];
   const eduStd = [eduLevelInfo(p.edu.level)?.label||'Level not recognised', p.edu.program||p.edu.field, p.edu.institution].filter(Boolean).join(' · ');
   if(p.education && p.education.trim().toLowerCase()!==eduStd.toLowerCase()) rows.push(trRow('Education', p.education, eduStd));
-  if(p.location && p.location.trim().toLowerCase()!==p.loc.city.toLowerCase()) rows.push(trRow('Location', p.location, p.loc.city+(p.loc.matched?'':' (not recognised, please check)')));
+  if(p.location && p.loc.city && p.location.trim().toLowerCase()!==p.loc.city.toLowerCase()) rows.push(trRow('Location', p.location, p.loc.city+(p.loc.matched?'':' (not recognised, please check)')));
   skillTranslationRows(p.skills).forEach(r=>rows.push(r));
-  const note = p.mode==='text' ? 'Extracted from the CV text you provided.' : 'Sample CV data for the demo.';
-  return '<div class="std-card" style="grid-column:1/-1;margin:0;"><div class="section-title" style="font-size:13px;">Translated and standardised <span class="cell-sub">· '+note+' Check the dropdowns below before adding.</span></div>'+
+  return '<div class="std-card" style="grid-column:1/-1;margin:0;"><div class="section-title" style="font-size:13px;">Translated and standardised <span class="cell-sub">· check the dropdowns below before adding</span></div>'+
     (rows.length ? trHeader()+rows.join('') : '<div class="cell-sub" style="margin-top:6px;">Everything already uses the standard wording.</div>')+'</div>';
 }
+const expToLines = ex=>(ex||[]).map(e=>[e.role,e.company,e.period].join(' | ')).join('\n');
+function linesToExp(str){
+  return String(str||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const [role,company,period] = l.split('|').map(x=>(x||'').trim()); return {role:role||'', company:company||'', period:period||''}; }).filter(e=>e.role||e.company);
+}
 
-function parseCv(){
-  const text = (document.getElementById('cvPasteText').value||'').trim() || cvFileText;
-  let p, mode;
-  if(text){ p = extractFromText(text); mode = 'text'; }
-  else { p = SAMPLE_PARSED_CVS[Math.floor(Math.random()*SAMPLE_PARSED_CVS.length)]; mode = 'sample'; }
+async function parseCv(){
+  const btn = document.getElementById('cvPrimaryBtn');
+  const pasted = (document.getElementById('cvPasteText').value||'').trim();
+  if(!pasted && !cvFile){ document.getElementById('cvFileNotice').innerHTML = noticeHtml('error', 'Upload a CV file, or paste the CV text, first.'); return; }
+  if(!pasted && cvFileError) return;
+  const text = pasted ? cleanText(pasted) : cvFile.text;
+  if(text.length<40){ document.getElementById('cvFileNotice').innerHTML = noticeHtml('error', 'That is too short to be a CV.'); return; }
+  btn.disabled = true; btn.textContent = 'Reading CV…';
+  try{
+    const local = parseCvText(text);
+    let p = local, engine = 'rules', aiNote = '';
+    const useAi = document.getElementById('cvUseAi');
+    if(useAi && useAi.checked){
+      btn.textContent = 'Asking Claude…';
+      const r = await claudeStructure(text, local);
+      if(r.data){ p = mergeAi(local, r.data, text); engine = 'claude'; if(p._dropped) aiNote = p._dropped+' value'+(p._dropped===1?'':'s')+' from Claude were left out because they were not found in the CV text.'; }
+      else aiNote = r.unavailable ? 'Claude reading is not available here, so the built-in reader was used.' : r.error==='not_granted' ? 'Claude was not allowed to read this CV, so the built-in reader was used.' : 'Claude could not read this CV ('+r.error+'), so the built-in reader was used.';
+    }
+    finishParse(p, text, engine, aiNote, !!pasted);
+  }catch(e){
+    document.getElementById('cvFileNotice').innerHTML = noticeHtml('error', escHtml(e && e.message ? e.message : 'Could not read this CV.'));
+    btn.textContent = 'Extract Candidate Info'; btn.disabled = false;
+  }
+}
+function finishParse(p, text, engine, aiNote, fromPaste){
   p = Object.assign({experience:[], certifications:[], previousCompanies:[], skills:[], experienceYears:0, name:'', email:'', phone:'', location:'', education:''}, p);
-  p.mode = mode;
   p.edu = normaliseEducation(p.education);
-  p.loc = normaliseLocation(p.location);
-  parsedCvData = p;
-  document.getElementById('cvStep1').style.display='none';
-  document.getElementById('cvStep2').style.display='block';
-  document.getElementById('cvExtractedGrid').innerHTML = cvTranslationHtml(p) + `
-    <div class="field"><label>Name</label><input id="cv_name" value="${escAttr(p.name)}"></div>
-    <div class="field"><label>Email</label><input id="cv_email" value="${escAttr(p.email)}"></div>
+  p.loc = p.location ? normaliseLocation(p.location) : {city:'', group:'', matched:false, raw:''};
+  p.text = text; p.fromPaste = fromPaste; parsedCvData = p;
+  const src = fromPaste ? 'the pasted text' : escHtml(cvFile.name);
+  const banner = noticeHtml('info', (engine==='claude' ? 'Read from '+src+' by Claude, and checked against the CV text.' : 'Read from '+src+' by the built-in reader.')+' Fields it could not find are left blank. Nothing is made up.'+(aiNote?'<br>'+escHtml(aiNote):''));
+  document.getElementById('cvStep1').style.display = 'none';
+  document.getElementById('cvStep2').style.display = 'block';
+  document.getElementById('cvExtractedGrid').innerHTML = `
+    <div style="grid-column:1/-1;margin-top:-12px;">${banner}</div>
+    ${cvTranslationHtml(p)}
+    <div id="cvDupBox" style="grid-column:1/-1;margin-top:-12px;"></div>
+    <div class="field"><label>Name</label><input id="cv_name" value="${escAttr(p.name)}" oninput="checkCvDuplicate()" placeholder="Required"></div>
+    <div class="field"><label>Email</label><input id="cv_email" value="${escAttr(p.email)}" oninput="checkCvDuplicate()"></div>
     <div class="field"><label>Phone</label><input id="cv_phone" value="${escAttr(p.phone)}"></div>
     <div class="field"><label>Years of experience</label><input id="cv_exp" type="number" min="0" value="${p.experienceYears||0}"></div>
-    <div class="field"><label>Location (standard)</label><select id="cv_location">${locationOptionsHtml(p.loc.city)}</select></div>
+    <div class="field"><label>Location (standard)</label><select id="cv_location">${locationOptionsHtml(p.loc.city, true)}</select></div>
     <div class="field"><label>Education level (standard)</label><select id="cv_eduLevel">${eduLevelOptionsHtml(p.edu.level, true)}</select></div>
     <div class="field"><label>Field of study (standard)</label><select id="cv_eduField">${eduFieldOptionsHtml(p.edu.field)}</select></div>
     <div class="field"><label>Institution</label><input id="cv_institution" value="${escAttr(p.edu.institution)}"></div>
+    <div class="field span2"><label>Work experience <span class="hint">one job per line: Role | Company | Period</span></label><textarea id="cv_experience" rows="5" placeholder="No work experience found in the CV">${escHtml(expToLines(p.experience))}</textarea></div>
     <div class="field span2"><label>Skills</label><input id="cv_skills" value="${escAttr(p.skills.join(', '))}"></div>
-    <div class="field span2"><label>Previous companies</label><input id="cv_companies" value="${escAttr(p.previousCompanies.join(', '))}"></div>
+    <div class="field span2"><label>Certifications</label><input id="cv_certs" value="${escAttr(p.certifications.join(', '))}"></div>
+    <details style="grid-column:1/-1;"><summary class="cell-sub" style="cursor:pointer;font-weight:700;">Show the text read from the CV</summary><pre style="white-space:pre-wrap;font-size:12px;background:var(--bg);padding:12px;border-radius:10px;max-height:240px;overflow:auto;margin:8px 0 0;">${escHtml(text.slice(0,6000))}</pre></details>
   `;
-  document.getElementById('cvPrimaryBtn').textContent = 'Add Candidate';
-  document.getElementById('cvPrimaryBtn').onclick = confirmAddCandidate;
-  toast('CV read: check the standard dropdowns before adding');
+  const btn = document.getElementById('cvPrimaryBtn');
+  btn.textContent = 'Add Candidate'; btn.disabled = false; btn.onclick = confirmAddCandidate;
+  checkCvDuplicate();
 }
-function confirmAddCandidate(){
+function checkCvDuplicate(){
+  const box = document.getElementById('cvDupBox'); const btn = document.getElementById('cvPrimaryBtn');
+  if(!box) return true;
+  const dup = findDuplicate({name:document.getElementById('cv_name').value, email:document.getElementById('cv_email').value});
+  if(dup){ box.innerHTML = noticeHtml('error', escHtml(dup.reason)+openProfileLink(dup.c.id)+'. A duplicate cannot be added.'); btn.disabled = true; return false; }
+  box.innerHTML = ''; btn.disabled = false; return true;
+}
+async function confirmAddCandidate(){
   const p = parsedCvData;
-  const name = document.getElementById('cv_name').value.trim() || 'New Candidate';
+  const val = id=>document.getElementById(id).value.trim();
+  const name = val('cv_name');
+  if(!name){ toast('Enter the candidate name'); return; }
+  if(!val('cv_location')){ toast('Choose a location from the list'); return; }
+  if(!checkCvDuplicate()) return;
+  let file = cvFile;
+  if(!file){
+    const buf = new TextEncoder().encode(p.text).buffer;
+    file = {name:'CV_'+name.replace(/[^A-Za-z0-9]+/g,'_')+'.txt', size:buf.byteLength, type:'txt', buf, text:p.text, hash:await sha256Hex(buf)};
+  }
+  const dupFile = findDuplicate({hash:file.hash, fileName:file.name});
+  if(dupFile){ toast(dupFile.reason); return; }
+  const experience = linesToExp(val('cv_experience'));
+  const companies = [...new Set(experience.map(e=>e.company).filter(Boolean))];
   const newC = {
-    id:'c'+(candidates.length+1)+'_'+Date.now().toString().slice(-4), name, jobId:document.getElementById('cvJobSelect').value, stage:'Applied', appliedDate:todayISO(),
-    email:document.getElementById('cv_email').value, phone:document.getElementById('cv_phone').value,
-    location:document.getElementById('cv_location').value, locRaw:p.location || document.getElementById('cv_location').value,
+    id:'c'+(candidates.length+1)+'_'+Date.now().toString().slice(-4), name, jobId:val('cvJobSelect'), stage:'Applied', appliedDate:todayISO(),
+    email:val('cv_email'), phone:val('cv_phone'),
+    location:val('cv_location'), locRaw:p.location || val('cv_location'),
     education:p.education||'', eduRaw:p.education||'',
-    eduLevel:document.getElementById('cv_eduLevel').value, eduField:document.getElementById('cv_eduField').value,
-    eduProgram:p.edu.program, eduInstitution:document.getElementById('cv_institution').value, eduInProgress:p.edu.inProgress,
-    experienceYears:Number(document.getElementById('cv_exp').value)||0,
-    skills:(document.getElementById('cv_skills').value||'').split(',').map(s=>s.trim()).filter(Boolean),
-    workExperience:p.experience, certifications:p.certifications,
-    previousCompanies:(document.getElementById('cv_companies').value||'').split(',').map(s=>s.trim()).filter(Boolean),
-    recruiter:'Kelly Wijaya', interviewDate:null, notes:[], inTalentPool:false, source:'Other',
+    eduLevel:val('cv_eduLevel'), eduField:val('cv_eduField'),
+    eduProgram:p.edu.program, eduInstitution:val('cv_institution'), eduInProgress:p.edu.inProgress,
+    experienceYears:Number(val('cv_exp'))||0,
+    skills:val('cv_skills').split(',').map(s=>s.trim()).filter(Boolean),
+    workExperience:experience, certifications:val('cv_certs').split(',').map(s=>s.trim()).filter(Boolean),
+    previousCompanies:companies,
+    recruiter:currentUser().name, interviewDate:null, notes:[], inTalentPool:false, source:'Other',
+    cvFile:file, documents:[{type:'CV', name:file.name, date:todayISO(), real:true}],
   };
   standardizeCandidate(newC);
   candidates.unshift(newC);
+  cvFile = null;
   closeModal('cvModalOverlay');
-  toast(name+' added to candidates');
-  renderCandidates(); renderDashboard(); renderNav();
+  toast(name+' added from '+file.name);
+  refreshAll();
+}
+
+/* ---------- save a file (published pages must go through the downloads capability) ---------- */
+async function saveFile(filename, data, mime){
+  try{
+    if(window.claude && window.claude.use){
+      const dl = await window.claude.use('downloads');
+      if(dl){ await dl.save({filename, data}); return true; }
+    }
+  }catch(e){ if(e && e.code==='declined') return false; if(e && (e.code==='rejected_extension'||e.code==='extension_not_enabled')){ toast('This view cannot save .'+String(filename).split('.').pop()+' files. Use the calendar buttons instead.'); return false; } }
+  try{
+    const blob = data instanceof Blob ? data : new Blob([data], {type:mime||'application/octet-stream'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1500);
+    return true;
+  }catch(e){ toast('Saving files is not available in this view'); return false; }
+}
+
+/* ---------- delete a candidate ---------- */
+function askConfirm({title, bodyHtml, okLabel, onOk}){
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmBody').innerHTML = bodyHtml;
+  const ok = document.getElementById('confirmOk'); ok.textContent = okLabel;
+  ok.onclick = ()=>{ closeModal('confirmOverlay'); onOk(); };
+  document.getElementById('confirmOverlay').classList.add('show');
+}
+function deleteCandidate(id){
+  const c = candidates.find(x=>x.id===id); if(!c) return;
+  const job = jobById(c.jobId);
+  const docs = (c.documents||[]).length || (c.cvFile?1:0);
+  const items = ['Profile, match results and interview history'];
+  if(c.cvFile) items.push('The uploaded CV file ('+escHtml(c.cvFile.name)+')'); else if(docs) items.push(docs+' stored document'+(docs===1?'':'s'));
+  if((c.notes||[]).length) items.push((c.notes.length)+' recruiter note'+(c.notes.length===1?'':'s'));
+  if(c.stage==='Hired' || c.employment) items.push('Their employee record (start date, hours, KTP, NPWP, salary)');
+  if(c.inTalentPool) items.push('Their place in the Talent Pool');
+  askConfirm({
+    title:'Delete candidate?',
+    bodyHtml:'<p style="margin:0 0 10px;font-size:13.5px;">Permanently delete <b>'+escHtml(c.name)+'</b>'+(job?' ('+escHtml(job.title)+', '+escHtml(c.stage)+')':'')+'? This removes:</p>'+
+      '<ul style="margin:0 0 12px;padding-left:20px;font-size:13px;color:#344054;line-height:1.7;">'+items.map(i=>'<li>'+i+'</li>').join('')+'</ul>'+
+      '<p style="margin:0;font-size:12.5px;font-weight:700;color:#B42318;">This cannot be undone.</p>',
+    okLabel:'Delete permanently',
+    onOk:()=>performDelete(id),
+  });
+}
+function performDelete(id){
+  const idx = candidates.findIndex(x=>x.id===id); if(idx<0) return;
+  const c = candidates[idx];
+  candidates.splice(idx,1);
+  closeModal('profileOverlay');
+  if(typeof currentEmployeeId!=='undefined' && currentEmployeeId===id) closeModal('employeeOverlay');
+  toast(c.name+' was deleted');
+  refreshAll();
 }
 
 /* =========================================================================
@@ -2833,10 +3740,12 @@ function openJobBoardModal(){
 }
 function connectBoard(boardId){
   const board = JOB_BOARDS.find(b=>b.id===boardId);
+  const dupB = findDuplicate({name:board.sample.name, email:board.sample.email});
   connectedBoards[boardId] = true;
+  if(dupB){ document.getElementById('jobBoardList').innerHTML = JOB_BOARDS.map(jobBoardRow).join(''); toast(board.name+': '+board.sample.name+' is already in the database, skipped'); return; }
   const newC = Object.assign({}, board.sample, {
     id:'c_'+boardId+'_'+Date.now().toString().slice(-4), jobId:'', stage:'Applied', appliedDate:todayISO(),
-    recruiter:'Kelly Wijaya', interviewDate:null, notes:[], inTalentPool:false, source:board.name,
+    recruiter:currentUser().name, interviewDate:null, notes:[], inTalentPool:false, source:board.name,
   });
   standardizeCandidate(newC);
   // allocate to the open vacancy this applicant matches best (recruiters can reassign in the profile)
@@ -2861,6 +3770,7 @@ document.querySelectorAll('.overlay').forEach(ov=>{
    INIT
    ========================================================================= */
 function init(){
+  renderUserChip();
   renderNav();
   renderNotifs();
   populateSelects();
